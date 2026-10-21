@@ -93,7 +93,15 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", ctype)
         self.send_header("Content-Length", str(len(data)))
         if path.suffix in (".md", ".json", ".csv", ".fountain"):
-            self.send_header("Content-Disposition", f'attachment; filename="{path.name}"')
+            # HTTP 头只能是 ASCII。直接塞中文文件名会让 send_header 抛异常，
+            # 客户端拿到 200 但正文 0 字节。用 RFC 5987 的 filename* 传中文。
+            from urllib.parse import quote
+            fallback = path.stem.encode("ascii", "ignore").decode().strip("_") or "download"
+            self.send_header(
+                "Content-Disposition",
+                f'attachment; filename="{fallback}{path.suffix}"; '
+                f"filename*=UTF-8''{quote(path.name)}",
+            )
         self.end_headers()
         self.wfile.write(data)
 
@@ -123,12 +131,15 @@ class Handler(BaseHTTPRequestHandler):
                     snap["script"] = job["script"]
                 self._json(snap)
             elif u.path.startswith("/api/download"):
-                rel = (q.get("path") or [""])[0]
-                target = (ROOT / rel).resolve() if rel else None
-                if not target or ROOT not in target.parents:
+                name = (q.get("name") or [""])[0]
+                out_dir = OUT.resolve()
+                target = (out_dir / name).resolve() if name else None
+                if not target or out_dir not in target.parents:
                     self._json({"error": {"code": "SYS_FORBIDDEN", "message": "路径越界"}}, 403)
                     return
                 self._file(target)
+            elif u.path.startswith("/api/outputs"):
+                self._json(self._outputs())
             else:
                 # 静态资源
                 rel = u.path.lstrip("/")
@@ -155,6 +166,8 @@ class Handler(BaseHTTPRequestHandler):
                 self._json(pipeline.estimate(body.get("blueprint") or {}))
             elif u.path == "/api/config":
                 self._save_config(body)
+            elif u.path == "/api/open-folder":
+                self._open_folder(body)
             elif u.path == "/api/config/test":
                 from core.llm import test_connection
                 self._json(test_connection())
@@ -168,6 +181,55 @@ class Handler(BaseHTTPRequestHandler):
             self._err(e)
 
     # ---------- 业务 ----------
+    def _outputs(self) -> dict:
+        """产物目录 + 最近的文件列表。"""
+        try:
+            OUT.mkdir(parents=True, exist_ok=True)
+        except OSError as e:
+            return {"dir": str(OUT), "files": [], "error": f"目录不可写：{e}"}
+        exts = {".md", ".html", ".json", ".csv", ".fountain"}
+        files = []
+        for f in OUT.iterdir():
+            if not f.is_file() or f.suffix not in exts:
+                continue
+            st = f.stat()
+            files.append({"name": f.name, "size": st.st_size,
+                          "mtime": int(st.st_mtime), "ext": f.suffix[1:]})
+        files.sort(key=lambda x: x["mtime"], reverse=True)
+        return {"dir": str(OUT), "files": files[:40]}
+
+    def _open_folder(self, body: dict) -> None:
+        """在系统文件管理器里打开产物目录（可选中某个文件）。只允许产物目录内。"""
+        import subprocess
+        out_dir = OUT.resolve()
+        try:
+            out_dir.mkdir(parents=True, exist_ok=True)
+        except OSError as e:
+            raise SGError(f"产物目录不可写：{e}", hint="换个位置放程序，或手动打开该目录") from e
+
+        name = (body or {}).get("name") or ""
+        target = out_dir
+        if name:
+            cand = (out_dir / name).resolve()
+            if out_dir in cand.parents and cand.is_file():
+                target = cand
+
+        try:
+            if sys.platform == "win32":
+                if target.is_file():
+                    subprocess.Popen(["explorer", "/select,", str(target)])
+                else:
+                    os.startfile(str(target))          # noqa: S606
+            elif sys.platform == "darwin":
+                subprocess.Popen(["open", "-R", str(target)] if target.is_file()
+                                 else ["open", str(target)])
+            else:
+                subprocess.Popen(["xdg-open", str(target.parent if target.is_file() else target)])
+        except OSError as e:
+            raise SGError(f"打不开文件管理器：{e}",
+                          hint=f"手动打开这个路径：{out_dir}") from e
+        self._json({"ok": True, "opened": str(target)})
+
     def _config_payload(self) -> dict:
         from core.llm import CONFIG_PATH, LLMConfig, load_saved_config
         saved = load_saved_config()
@@ -299,7 +361,15 @@ def main() -> int:
     ap.add_argument("--host", default="127.0.0.1")
     args = ap.parse_args()
     OUT.mkdir(exist_ok=True)
-    srv = ThreadingHTTPServer((args.host, args.port), Handler)
+    try:
+        srv = ThreadingHTTPServer((args.host, args.port), Handler)
+    except OSError as e:
+        # 端口被占多半是已经开了一个窗口，别丢一堆堆栈吓人
+        print(f"\n[启动失败] 端口 {args.port} 已被占用。")
+        print(f"  · 如果已经有一个窗口在跑，直接打开：http://{args.host}:{args.port}")
+        print(f"  · 想换端口：python server.py --port 8770")
+        print(f"  · 原始错误：{e}")
+        return 1
     print(f"剧本生成器已启动： http://{args.host}:{args.port}")
     print(f"要素库： {', '.join(pipeline.list_libraries()) or '(空，先跑 tools/build_elements.py)'}")
     print(f"LLM： {json.dumps(pipeline.probe(), ensure_ascii=False)}")

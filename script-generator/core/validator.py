@@ -167,7 +167,10 @@ def validate_episode(ep: dict, card: dict, lib: Library, ledger: dict,
             pass  # 西语名允许出现在台词里
 
     # ---------- L3 规则 ----------
-    low = blob
+    # 红线只扫正文（时间段 / 动作 / 台词）。
+    # 不能扫 compliance.risk_notes —— 模型在那里写「注意避免原住民刻板印象」，
+    # 一扫描就变成「命中原住民刻板印象」，等于惩罚它主动规避。
+    low = _narrative_text(ep)
     for rl in lib.red_lines():
         key = re.sub(r"（.*?）|\(.*?\)", "", rl.get("name", "")).strip()
         if key and len(key) >= 2 and key in low:
@@ -208,6 +211,24 @@ def _never_do_check(ep: dict, card: dict, ledger: dict) -> list[dict]:
     return out
 
 
+def _narrative_text(ep: dict) -> str:
+    """只取正文：时间段、动作、台词、意译。"""
+    buf: list[str] = []
+    for sg in (ep.get("segments") or []):
+        if isinstance(sg, dict):
+            buf.append(_s(sg.get("text")))
+    for sc in (ep.get("scenes") or []):
+        if not isinstance(sc, dict):
+            continue
+        buf.append(_s(sc.get("action")))
+        buf.append(_s(sc.get("camera")))
+        for ln in (sc.get("lines") or []):
+            if isinstance(ln, dict):
+                buf.append(_s(ln.get("text")))
+                buf.append(_s(ln.get("gloss")))
+    return " ".join(buf)
+
+
 def _flatten_text(obj: Any) -> str:
     buf: list[str] = []
 
@@ -216,7 +237,7 @@ def _flatten_text(obj: Any) -> str:
             buf.append(o)
         elif isinstance(o, dict):
             for k, v in o.items():
-                if k in ("generator",):
+                if k in ("generator", "compliance"):
                     continue
                 walk(v)
         elif isinstance(o, list):
@@ -228,15 +249,19 @@ def _flatten_text(obj: Any) -> str:
 
 
 # ------------------------------------------------------------------ 全局
-def validate_script(script: dict, cards: list[dict], lib: Library, ledger: dict) -> dict:
+def validate_script(script: dict, cards: list[dict], lib: Library, ledger: dict,
+                    expect_missing: bool = False) -> dict:
     issues: list[dict] = []
     eps = script.get("episodes") or []
     want = {c["episode"] for c in cards}
     got = {e.get("episode") for e in eps if isinstance(e, dict)}
     missing = sorted(want - got)
     if missing:
-        issues.append(_issue("error", "VAL_MISSING", f"缺少 {len(missing)} 集：{missing[:10]}", "$.episodes",
-                             "重跑缺失集"))
+        issues.append(_issue(
+            "warn" if expect_missing else "error", "VAL_MISSING",
+            (f"因中止未生成 {len(missing)} 集：{missing[:10]}" if expect_missing
+             else f"缺少 {len(missing)} 集：{missing[:10]}"),
+            "$.episodes", "修好模型配置后重跑" if expect_missing else "重跑缺失集"))
     # 同名不同人 / 同人不同名
     name2id: dict[str, str] = {}
     for cid, info in (ledger.get("characters") or {}).items():

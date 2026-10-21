@@ -17,6 +17,7 @@ import subprocess
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -282,8 +283,21 @@ def t_http():
                 break
             time.sleep(0.4)
         check("job 轮询到完成", done)
+        # 产物目录与下载
+        outs = json.loads(_get(base + "/api/outputs"))
+        check("产物接口返回目录", bool(outs.get("dir")), str(outs.get("dir"))[:60])
+        check("产物接口返回文件列表", isinstance(outs.get("files"), list))
+        names = [f["name"] for f in outs.get("files", [])]
+        if names:
+            nm = names[0]
+            r = _get_raw(base + "/api/download?name=" + urllib.parse.quote(nm))
+            body, headers = r
+            check("中文文件名能下载", len(body) > 100, f"{nm} {len(body)}B")
+            cd = headers.get("Content-Disposition", "")
+            check("Content-Disposition 用 filename* 传中文", "filename*=UTF-8''" in cd, cd[:80])
+            check("响应头保持 ASCII", all(ord(c) < 128 for c in cd))
         try:
-            _get(base + "/api/download?path=../core/pipeline.py")
+            _get(base + "/api/download?name=" + urllib.parse.quote("../core/pipeline.py"))
             check("路径穿越被拦", False)
         except urllib.error.HTTPError as e:
             check("路径穿越被拦", e.code in (403, 404))
@@ -301,6 +315,11 @@ def _free_port() -> int:
     p = s.getsockname()[1]
     s.close()
     return p
+
+
+def _get_raw(url: str):
+    with urllib.request.urlopen(url, timeout=30) as r:
+        return r.read(), dict(r.headers)
 
 
 def _get(url: str) -> str:

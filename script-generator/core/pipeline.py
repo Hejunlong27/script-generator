@@ -161,6 +161,9 @@ def run(
     failures: list[dict] = []
     lock = threading.Lock()
     done = 0
+    fail_streak = 0          # 连续失败计数
+    aborted: dict | None = None
+    MAX_FAIL_STREAK = 3      # 连续 3 集失败就停（开局连续 2 集就停）
 
     def one(card: dict, prev: list[dict]) -> tuple[dict | None, list[dict], str]:
         """单集：生成 -> 校验 -> 修复，失败可降级。"""
@@ -201,8 +204,14 @@ def run(
                                "message": "本集由模板降级生成，文采待润色", "where": f"ep{card['episode']}", "hint": ""})
 
         if ep is None:
-            raise LLMError("本集无输出", hint="重跑该集或切到 template 模式",
+            # 别用一句泛泛的「无输出」盖掉真实原因——用户要靠它定位问题
+            first = next((i for i in issues if i["level"] == "error"), {})
+            err = LLMError(first.get("message") or "本集无输出",
+                           hint=first.get("hint") or "重跑该集，或把模式切到 template",
                            where=f"ep{card['episode']}")
+            if first.get("code"):
+                err.code = first["code"]
+            raise err
         ep["_checks"] = {
             "passed": not [i for i in issues if i["level"] == "error"],
             "errors": sum(1 for i in issues if i["level"] == "error"),
@@ -219,6 +228,8 @@ def run(
     window = max(1, workers)
     content_mode = eff_mode == "llm"
     for start in range(0, len(cards), window):
+        if aborted:
+            break
         batch = cards[start:start + window]
         if content_mode:
             # 同批并行：每集的前情取"上一批"的最后两集，保证上下文稳定
@@ -230,10 +241,14 @@ def run(
                     try:
                         ep, issues, _ = fut.result()
                         results[card["episode"]] = ep
+                        fail_streak = 0
                     except SGError as e:
                         failures.append({"episode": card["episode"], **e.to_dict()})
+                        fail_streak += 1
                     except Exception as e:  # noqa: BLE001
-                        failures.append({"episode": card["episode"], "code": "GEN_UNKNOWN", "message": str(e)[:200]})
+                        failures.append({"episode": card["episode"], "code": "GEN_UNKNOWN",
+                                         "message": str(e)[:200]})
+                        fail_streak += 1
                     with lock:
                         done += 1
                         pct = 10 + int(75 * done / max(1, total))
@@ -246,11 +261,29 @@ def run(
                     results[card["episode"]] = ep
                 except SGError as e:
                     failures.append({"episode": card["episode"], **e.to_dict()})
+                    fail_streak += 1
                 except Exception as e:  # noqa: BLE001
                     failures.append({"episode": card["episode"], "code": "GEN_UNKNOWN", "message": str(e)[:200]})
+                    fail_streak += 1
+                else:
+                    fail_streak = 0
                 done += 1
                 pct = 10 + int(75 * done / max(1, total))
                 _emit(progress, "render", pct, f"已完成 {done}/{total} 集", done=done, total=total)
+
+        # 批次结束看是否要中止：环境问题（模型不可用）不该让用户等 30 集
+        if fail_streak >= MAX_FAIL_STREAK or (fail_streak >= 2 and done <= 2):
+            aborted = {
+                "reason": "连续多集生成失败，判定为环境问题，已中止",
+                "at_episode": done,
+                "generated": len(results),
+                "remaining": total - done,
+                "first_error": (failures[0].get("message", "") if failures else "")[:200],
+                "code": (failures[0].get("code", "") if failures else ""),
+            }
+            _emit(progress, "render", 10 + int(75 * done / max(1, total)),
+                  f"已中止：{aborted['reason']}", done=done, total=total)
+            break
 
     # ---- 组装 Script ----
     _emit(progress, "validate", 88, "全局校验与引用核查")
@@ -278,9 +311,11 @@ def run(
         "input_issues": in_issues,
         "autofilled": filled,
         "failures": failures,
+        "aborted": aborted,
         "llm": client.cfg.describe(),
     }
-    script["checks"] = validate_script(script, cards, lib, comp.ledger)
+    script["checks"] = validate_script(script, cards, lib, comp.ledger,
+                                       expect_missing=bool(aborted))
 
     _emit(progress, "export", 95, "导出文件")
     paths = {}

@@ -265,6 +265,17 @@ def build_main(src: Path, market: str) -> list[dict]:
 # **只标 core，不标 arc。** arc 由 `arc.attrs.pairs_core` 反查生成——
 # 配对关系的唯一事实源是素材库自己标的「配内核」，手写第二份必然错位。
 # （曾经手写过，8 个包里有 4 个 core 与 arc 对不上，随机补齐时就报 IN_PAIRING。）
+PACKAGE_HOOKS = {
+    1: ["G01", "G07", "G12", "G13"],
+    2: ["G03", "G10", "G18"],
+    3: ["G01", "G06", "G12"],
+    4: ["G05", "G16", "G19"],
+    5: ["G09", "G22"],
+    6: ["G02", "G11", "G21"],
+    7: ["G04", "G14", "G15"],
+    8: ["G08", "G20", "G25"],
+}
+
 PACKAGE_PRESETS = {
     1: {"cores": ["B03", "B01", "B29"],
         "note": "库作者验证过的组合（README 示例一）"},
@@ -402,6 +413,7 @@ def build_packages(src: Path, market: str, arcs_rev: dict[str, list[str]] | None
                     "advantage": "",
                     "preset_cores": preset_core_ids,
                     "preset_arcs": preset_arc_ids,
+                    "preset_hooks": [f"{market}-HOK-{h}" for h in PACKAGE_HOOKS.get(no, [])],
                     "preset_note": preset.get("note", ""),
                     "readiness": readiness.get(no, {}),
                 },

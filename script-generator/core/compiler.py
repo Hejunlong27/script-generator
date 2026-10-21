@@ -178,6 +178,7 @@ class Compiler:
         self._scene_use: dict[str, int] = {}
         self._prop_use: dict[str, int] = {}
         self._prefer_scenes: set[str] = set()
+        self._prefer_hooks: set[str] = set()
         # 60 秒以内的短形态：换景和第三人上场的门槛都要抬高
         self.seconds = int(bp.meta.get("episode_seconds") or 60)
         self.short_form = self.seconds <= 60
@@ -199,6 +200,7 @@ class Compiler:
         package = res.get("package")
         if isinstance(package, Element):          # 未补齐时可能是空列表
             self._prefer_scenes = set(package.get("attrs.scenes") or [])
+            self._prefer_hooks = set(package.get("attrs.preset_hooks") or [])
         open_hook: Element | None = res.get("open_hook")
 
         if not core or not hero:
@@ -459,7 +461,10 @@ class Compiler:
             return None
 
         def key(h: Element):
-            return (10 if h.id in recent else 0, -self._tag_score(h, core.tags), h.id)
+            # 题材包标注过的开场钩优先，否则会出现「顶替新娘」配「抱错孩子」的钩子
+            in_pref = 1 if h.id in self._prefer_hooks else 0
+            return (-in_pref, 10 if h.id in recent else 0,
+                    -self._tag_score(h, core.tags), h.id)
 
         return sorted(cands, key=key)[0]
 

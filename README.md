@@ -23,7 +23,7 @@
 到 [Releases](https://github.com/Hejunlong27/script-generator/releases) 下载 `ScriptGenerator.exe`，
 双击运行，浏览器自动打开界面。关掉窗口即退出。
 
-出稿在 exe 同目录的 `out/` 里。
+出稿在 exe 同目录的 `out/` 里。界面「导出」页有一键**打开文件夹**，也能看到全部历史产物。
 
 ### 方式二：从源码运行
 
@@ -40,7 +40,8 @@ python cli.py gen -b examples/blueprint-bag1.json -m template -r 1-6 -o out
 python server.py          # http://127.0.0.1:8765
 ```
 
-零第三方依赖，Python 3.10+。
+零第三方依赖，Python 3.10+。Windows 也可以直接双击根目录的 `启动.bat`，
+它会自动选择源码模式或 exe 并打开浏览器。
 
 **接模型**：界面右上角「⚙ 模型」，选 DeepSeek / OpenAI / 通义 / 智谱 / 本地 Ollama，
 填 Key，点「测试连接」。Key 只存本机（源码模式在 `config.local.json`，exe 在 `%APPDATA%\ScriptGenerator`），不进版本库。
@@ -54,6 +55,10 @@ python server.py          # http://127.0.0.1:8765
 出稿。分集大纲 + 分场剧本 + 台词（西语原文 + 中文意译）：
 
 ![剧本](script-generator/docs/img/script.png)
+
+导出。产物目录一键打开，历史文件都在这里，每个文件可单独下载或定位：
+
+![导出](script-generator/docs/img/export.png)
 
 ## 关于素材
 

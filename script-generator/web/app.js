@@ -94,6 +94,10 @@ async function init() {
   renderSlots();
   bind();
   validateNow();
+
+  // 支持 #script / #export 直达某个标签页
+  const hash = (location.hash || '').replace('#', '');
+  if (['plan', 'script', 'prompt', 'json', 'export'].includes(hash)) switchTab(hash);
 }
 
 async function refreshLlmStatus() {
@@ -615,7 +619,7 @@ function renderPlan(r) {
    模型配置
    ============================================================ */
 const PRESETS = {
-  deepseek: { base_url: 'https://api.deepseek.com/v1', model: 'deepseek-chat' },
+  deepseek: { base_url: 'https://api.deepseek.com/v1', model: 'deepseek-chat', note: '用 chat，别用 flash/reasoner —— 推理模型会把 token 全花在思考上' },
   openai: { base_url: 'https://api.openai.com/v1', model: 'gpt-4o-mini' },
   qwen: { base_url: 'https://dashscope.aliyuncs.com/compatible-mode/v1', model: 'qwen-plus' },
   zhipu: { base_url: 'https://open.bigmodel.cn/api/paas/v4', model: 'glm-4-flash' },
@@ -750,7 +754,9 @@ async function poll(id) {
       S.script = j.script;
       S.detail = (j.script.episodes[0] || {}).episode || null;
       finish();
-      toast(`完成：${j.script.episodes.length} 集，${j.script.checks.errors} 个阻断项`);
+      const outDir = ((j.script.files || {}).md || '').replace(/\\/g, '/').split('/').slice(-2, -1)[0];
+      toast(`完成：${j.script.episodes.length} 集，${j.script.checks.errors} 个阻断项`
+        + (outDir ? ` · 已存到 ${outDir}/` : ''), 4000);
       switchTab('script');
       return;
     }
@@ -782,10 +788,44 @@ function renderScript() {
   if (!S.script) { box.innerHTML = '<div class="empty">还没有剧本。选好要素后点右上角「生成剧本」。</div>'; return; }
   const sc = S.script;
   const eps = sc.episodes || [];
+
+  // 一集都没出来：把失败原因摊开讲，别留个空白页
+  if (!eps.length) {
+    const ab = sc.aborted || {};
+    const fails = sc.failures || [];
+    const first = fails[0] || {};
+    box.innerHTML = `
+      <div class="empty" style="padding:34px 12px 18px">
+        <div style="font-size:15px;font-weight:650;color:var(--err);margin-bottom:6px">没有生成出任何一集</div>
+        <div style="font-size:12.5px;color:var(--tx2)">${esc(ab.reason || '全部集数生成失败')}</div>
+      </div>
+      ${first.message ? `<div class="issue err"><b>${esc(first.code || 'GEN')}</b>
+        <span>${esc(first.message)}${first.hint ? `<span class="hint">→ ${esc(first.hint)}</span>` : ''}</span></div>` : ''}
+      <div class="card" style="margin-top:12px;font-size:12.5px;line-height:1.9">
+        <b>怎么处理</b><br>
+        1. 点右上角「⚙ 模型」→「测试连接」，先确认模型通不通<br>
+        2. 如果报「正文为空 / 全是推理」：把模型换成 <code>deepseek-chat</code> 这类<strong>非推理模型</b>，或把 max_tokens 调到 12000 以上<br>
+        3. 想先看看结构对不对：顶栏「模式」切到 <code>template</code>，不调模型也能出完整稿
+      </div>
+      <div class="badges" style="margin-top:12px">
+        <span class="badge err">${fails.length} 集失败</span>
+        <span class="badge">模式 ${esc((sc.meta || {}).mode || '')}</span>
+        <span class="badge">${esc((sc.meta || {}).elapsed_sec || 0)} 秒</span>
+      </div>`;
+    return;
+  }
+
   if (!S.detail || !eps.find((e) => e.episode === S.detail)) S.detail = (eps[0] || {}).episode;
   const ep = eps.find((e) => e.episode === S.detail) || {};
 
-  let h = '<h3 class="sec">分集</h3><div class="eplist">';
+  const mdPath = (sc.files || {}).md || '';
+  const shortDir = mdPath ? String(mdPath).replace(/\\/g, '/').split('/').slice(-2).join('/') : '';
+  let h = '';
+  if (shortDir) {
+    h += `<div class="savebar">已保存到 <code>${esc(shortDir)}</code>
+      <button class="fbtn" id="btn-goto-export" style="margin-left:auto">打开文件夹 / 看全部产物</button></div>`;
+  }
+  h += '<h3 class="sec">分集</h3><div class="eplist">';
   h += eps.map((e) => `<button class="${e.episode === S.detail ? 'on' : ''}" data-ep="${e.episode}"
      title="${esc(e.title || '')}">E${e.episode}${e.generator && e.generator.degraded ? '·降级' : ''}</button>`).join('');
   h += '</div>';
@@ -843,6 +883,12 @@ function renderScript() {
   }
   h += '</div>';
 
+  if (sc.aborted) {
+    h += `<div class="issue err" style="margin-top:12px"><b>已中止</b>
+      <span>${esc(sc.aborted.reason)}（已生成 ${sc.aborted.generated} 集，剩 ${sc.aborted.remaining} 集未跑）
+      ${sc.aborted.first_error ? `<span class="hint">首条错误：${esc(sc.aborted.first_error)}</span>` : ''}</span></div>`;
+  }
+
   const g = sc.checks || {};
   h += '<h3 class="sec">全剧检查</h3>';
   h += `<div class="badges">
@@ -859,6 +905,8 @@ function renderScript() {
   box.querySelectorAll('[data-ep]').forEach((b2) => {
     b2.onclick = () => { S.detail = +b2.dataset.ep; renderScript(); };
   });
+  const gotoExport = box.querySelector('#btn-goto-export');
+  if (gotoExport) gotoExport.onclick = () => switchTab('export');
 }
 
 /* ============================================================
@@ -887,35 +935,100 @@ function renderJson() {
     <pre>${esc(JSON.stringify(copy, null, 1))}</pre>`;
 }
 
-function renderExport() {
+async function renderExport() {
   const box = $('#tab-export');
-  if (!S.script) { box.innerHTML = '<div class="empty">先生成，再导出。</div>'; return; }
-  const f = S.script.files || {};
-  const names = { md: 'Markdown 剧本', html: 'HTML 阅读页', json: '结构化 JSON', csv: '分镜台词表 CSV', fountain: 'Fountain 剧本' };
-  let h = '<h3 class="sec">下载</h3>';
-  for (const [k, p] of Object.entries(f)) {
-    const rel = String(p).replace(/\\/g, '/').split('/script-generator/').pop();
-    h += `<a class="dl" href="/api/download?path=${encodeURIComponent(rel)}">${esc(names[k] || k)}</a>`;
+  box.innerHTML = '<div class="empty">读取产物目录…</div>';
+
+  let out = { dir: '', files: [] };
+  try { out = await api('/api/outputs'); } catch (e) { out.error = e.message; }
+
+  const fmtSize = (n) => (n >= 1048576 ? (n / 1048576).toFixed(1) + ' MB'
+    : n >= 1024 ? Math.round(n / 1024) + ' KB' : n + ' B');
+  const fmtTime = (ts) => {
+    const d = new Date(ts * 1000);
+    const p = (x) => String(x).padStart(2, '0');
+    return `${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+  };
+  const extName = { md: '剧本', html: '阅读页', json: 'JSON', csv: '分镜表', fountain: 'Fountain' };
+
+  let h = '';
+
+  // ---- 目录 ----
+  h += `<h3 class="sec">产物目录</h3>
+    <div class="outdir">
+      <code id="outdir-path">${esc(out.dir || '（未获取到）')}</code>
+      <button class="primary sm" id="btn-open-folder">📂 打开文件夹</button>
+      <button class="ghost" id="btn-copy-path">复制路径</button>
+    </div>`;
+  if (out.error) h += `<div class="issue err" style="margin-top:8px"><b>ERR</b><span>${esc(out.error)}</span></div>`;
+
+  // ---- 本次生成的文件 ----
+  if (S.script && S.script.files) {
+    h += '<h3 class="sec">本次生成</h3><div class="filelist">';
+    for (const [k, path] of Object.entries(S.script.files)) {
+      const name = String(path).replace(/\\/g, '/').split('/').pop();
+      h += `<div class="fileitem">
+        <span class="ftag">${esc(extName[k] || k)}</span>
+        <span class="fname">${esc(name)}</span>
+        <a class="fbtn" href="/api/download?name=${encodeURIComponent(name)}">下载</a>
+        <button class="fbtn" data-locate="${esc(name)}">定位</button>
+      </div>`;
+    }
+    h += '</div>';
   }
-  const cost = (S.script.plan || {}).cost_summary || {};
-  const chk = (S.script.plan || {}).beat_ladder_check || {};
-  h += `<h3 class="sec">制作口径</h3><div class="card" style="font-size:12.5px;line-height:1.9">
-    · 场景 ${cost.distinct_scenes || 0} 个，群戏 ${cost.crowd_scenes || 0} 场，平均在场 ${cost.avg_cast || 0} 人<br>
-    · 爽点相邻最大差 ${chk.max_adjacent_delta == null ? '—' : chk.max_adjacent_delta}（铁律 ≤2），
-      每 10 集峰值 ≥${chk.min_peak_per_10 == null ? '—' : chk.min_peak_per_10}，
-      9–10 档 ${chk.count_9_10 || 0} 次（铁律 ≤3）<br>
-    · 称谓线：${((S.script.plan || {}).register_timeline || []).map((r) => 'E' + r.episode + ' ' + r.register).join(' → ')}
-  </div>`;
-  h += `<h3 class="sec">要素引用</h3><table><tr><th>集</th><th>场景</th><th>道具</th><th>爽点</th><th>钩子</th></tr>`;
-  for (const e of (S.script.episodes || []).slice(0, 60)) {
-    h += `<tr><td class="mono">${e.episode}</td>
-      <td class="mono">${(e.scene_refs || []).join('<br>')}</td>
-      <td class="mono">${(e.props || []).join('<br>')}</td>
-      <td class="mono">${esc((e.beat || {}).ref || '')}</td>
-      <td class="mono">${esc((e.hook || {}).ref || '')}</td></tr>`;
+
+  // ---- 全部产物 ----
+  const files = out.files || [];
+  if (files.length) {
+    h += `<h3 class="sec">历史产物（${files.length}）</h3><div class="filelist">`;
+    for (const f of files) {
+      h += `<div class="fileitem">
+        <span class="ftag">${esc(extName[f.ext] || f.ext)}</span>
+        <span class="fname">${esc(f.name)}</span>
+        <span class="fmeta">${fmtSize(f.size)} · ${fmtTime(f.mtime)}</span>
+        <a class="fbtn" href="/api/download?name=${encodeURIComponent(f.name)}">下载</a>
+        <button class="fbtn" data-locate="${esc(f.name)}">定位</button>
+      </div>`;
+    }
+    h += '</div>';
+  } else {
+    h += '<h3 class="sec">历史产物</h3><div class="empty">还没有产物。生成一次剧本就会出现在这里。</div>';
   }
-  h += '</table>';
+
+  // ---- 制作口径 ----
+  if (S.script) {
+    const cost = (S.script.plan || {}).cost_summary || {};
+    const chk = (S.script.plan || {}).beat_ladder_check || {};
+    h += `<h3 class="sec">制作口径</h3><div class="card" style="font-size:12.5px;line-height:1.9">
+      · 场景 ${cost.distinct_scenes || 0} 个，群戏 ${cost.crowd_scenes || 0} 场，平均在场 ${cost.avg_cast || 0} 人<br>
+      · 爽点相邻最大差 ${chk.max_adjacent_delta == null ? '—' : chk.max_adjacent_delta}（铁律 ≤2），
+        每 10 集峰值 ≥${chk.min_peak_per_10 == null ? '—' : chk.min_peak_per_10}，
+        9–10 档 ${chk.count_9_10 || 0} 次（铁律 ≤3）<br>
+      · 称谓线：${((S.script.plan || {}).register_timeline || []).map((r) => 'E' + r.episode + ' ' + r.register).join(' → ')}
+    </div>`;
+  }
+
   box.innerHTML = h;
+
+  // ---- 事件 ----
+  const openFolder = async (name) => {
+    try {
+      await api('/api/open-folder', name ? { name } : {});
+      toast(name ? '已在文件管理器中定位' : '已打开产物目录');
+    } catch (e) { toast('打不开：' + e.message); }
+  };
+  const btnOpen = box.querySelector('#btn-open-folder');
+  if (btnOpen) btnOpen.onclick = () => openFolder();
+  const btnCopy = box.querySelector('#btn-copy-path');
+  if (btnCopy) {
+    btnCopy.onclick = async () => {
+      try { await navigator.clipboard.writeText(out.dir || ''); toast('路径已复制'); }
+      catch (e) { toast('复制失败，手动选中路径吧'); }
+    };
+  }
+  box.querySelectorAll('[data-locate]').forEach((b) => {
+    b.onclick = () => openFolder(b.dataset.locate);
+  });
 }
 
 /* ============================================================ */

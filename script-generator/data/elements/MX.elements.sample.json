@@ -1535,6 +1535,12 @@
      "MX-ARC-C03",
      "MX-ARC-C28"
     ],
+    "preset_hooks": [
+     "MX-HOK-G01",
+     "MX-HOK-G07",
+     "MX-HOK-G12",
+     "MX-HOK-G13"
+    ],
     "preset_note": "库作者验证过的组合（README 示例一）",
     "readiness": {
      "coverage": "完整",
@@ -1588,6 +1594,11 @@
     "preset_arcs": [
      "MX-ARC-C22",
      "MX-ARC-C19"
+    ],
+    "preset_hooks": [
+     "MX-HOK-G02",
+     "MX-HOK-G11",
+     "MX-HOK-G21"
     ],
     "preset_note": "成本最低的一包：孩子 + 室内 + 少道具",
     "readiness": {

@@ -79,7 +79,7 @@ class LLMConfig:
     max_retries: int = 3
     temperature: float = 0.8
     json_mode: bool = True
-    max_tokens: int = 4000
+    max_tokens: int = 8000     # 推理模型会先用掉一部分做思考，留足余量
 
     @classmethod
     def from_env(cls) -> "LLMConfig":
@@ -91,7 +91,7 @@ class LLMConfig:
             max_retries=int(os.environ.get("SG_LLM_MAX_RETRIES", "3")),
             temperature=float(os.environ.get("SG_LLM_TEMPERATURE", "0.8")),
             json_mode=os.environ.get("SG_LLM_JSON_MODE", "1") != "0",
-            max_tokens=int(os.environ.get("SG_LLM_MAX_TOKENS", "4000")),
+            max_tokens=int(os.environ.get("SG_LLM_MAX_TOKENS", "8000")),
         )
 
     @classmethod
@@ -135,6 +135,8 @@ class LLMConfig:
             "api_key": ("***" + self.api_key[-4:]) if self.api_key else "(未设置)",
             "timeout": self.timeout,
             "max_retries": self.max_retries,
+            "max_tokens": self.max_tokens,
+            "temperature": self.temperature,
         }
 
 
@@ -186,6 +188,8 @@ class LLMClient:
 
     def __init__(self, cfg: LLMConfig | None = None):
         self.cfg = cfg or LLMConfig.from_sources()
+        self.last_usage: dict = {}
+        self.last_finish: str = ""
 
     # ---- 对外 ----
     def chat_json(self, system: str, user: str, *, label: str = "") -> dict:
@@ -271,9 +275,31 @@ class LLMClient:
             raise LLMBadResponseError(f"响应不是 JSON: {e}", where=label) from e
 
         try:
-            return data["choices"][0]["message"]["content"] or ""
+            choice = data["choices"][0]
+            msg = choice.get("message") or {}
         except (KeyError, IndexError, TypeError):
             raise LLMBadResponseError(f"响应结构异常: {str(data)[:300]}", where=label) from None
+
+        content = msg.get("content") or ""
+        reasoning = msg.get("reasoning_content") or ""
+        self.last_usage = data.get("usage") or {}
+        self.last_finish = choice.get("finish_reason") or ""
+
+        if content.strip():
+            return content
+
+        # 正文为空。最常见的原因是推理模型把 token 预算全用在 thinking 上——
+        # 这种情况重试也是白花钱（同样的预算，同样的结果），所以直接不重试。
+        if reasoning.strip():
+            used = self.last_usage.get("completion_tokens")
+            raise _NoRetry(LLMBadResponseError(
+                "正文为空：模型把 token 全用在推理上了"
+                + (f"（思考 {len(reasoning)} 字，completion={used}）" if used else ""),
+                hint=("当前是推理型模型。二选一：① 换成非推理模型（如 deepseek-chat），又快又便宜；"
+                      "② 把 max_tokens 调到 12000 以上给思考留位置"),
+                where=label,
+            ))
+        raise LLMBadResponseError("模型返回为空", hint="可能被内容过滤拦截，换个说法或换模型", where=label)
 
 
 class _NoRetry(Exception):

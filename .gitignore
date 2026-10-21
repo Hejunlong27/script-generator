@@ -26,3 +26,6 @@ script-generator/data/elements/MX.elements.json
 script-generator/dist/
 script-generator/build/work/
 script-generator/build/*.spec
+
+# 本地推送工具（含本机 token 路径，不入库）
+script-generator/tools/git_push_api.py
