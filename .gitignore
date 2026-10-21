@@ -1,0 +1,21 @@
+# 本机模型配置（含 API Key）
+config.local.json
+script-generator/config.local.json
+
+# 生成产物
+script-generator/out/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# 助手工作区元数据
+.workbuddy-ai/

@@ -1,0 +1,160 @@
+{
+  "id": "mx-suspenso",
+  "name": "墨西哥身份悬疑 · 竖屏 60–90 秒",
+  "market": "MX",
+  "description": "身份悬疑 > 案件悬疑。同一个数据模型，只换风格包：段落比例、语域、prompt 全变，代码不动。",
+  "output_language_default": "zh",
+  "language_note": "剧本说明用中文；台词用墨西哥西语口语（es-MX），括号内给中文意译。",
+  "segments": [
+    {
+      "name": "异常出现",
+      "ratio": 0.15,
+      "goal": "一个不该存在的细节出现，主角被迫开始怀疑",
+      "event_hint": "证据 / 照片 / 时间戳 / 陌生人的一句话"
+    },
+    {
+      "name": "排查",
+      "ratio": 0.3,
+      "goal": "每一次靠近真相都让主角失去一个依靠",
+      "event_hint": "证人不肯 / 记录被改 / 亲人撒谎"
+    },
+    {
+      "name": "错认",
+      "ratio": 0.25,
+      "goal": "主角认定了一个错误答案，并为此付出代价",
+      "event_hint": "抓错人 / 误会加深 / 自我怀疑"
+    },
+    {
+      "name": "翻面",
+      "ratio": 0.18,
+      "goal": "真相翻过来，主角发现自己也在其中",
+      "event_hint": "身份的第二种解释 / 共谋者是自己"
+    },
+    {
+      "name": "留下",
+      "ratio": 0.12,
+      "goal": "真相公开，代价不可撤销",
+      "event_hint": "选择沉默 / 交出证据 / 换一个名字"
+    }
+  ],
+  "timeline": [
+    {
+      "range": "0-3s",
+      "kind": "open_hook",
+      "rule": "纯画面，不许旁白。3 秒内让观众知道有人被骗"
+    },
+    {
+      "range": "3-12s",
+      "kind": "setup",
+      "rule": "建立空间与关系，只允许 1–2 人，不许交代背景"
+    },
+    {
+      "range": "12-40s",
+      "kind": "escalation",
+      "rule": "冲突升级，必须含信息差（观众知道、某角色不知道）"
+    },
+    {
+      "range": "40-54s",
+      "kind": "reversal",
+      "rule": "爽点落点。用动作和物件，不用长篇台词"
+    },
+    {
+      "range": "54-60s",
+      "kind": "cliff",
+      "rule": "新信息/新人物/新威胁，必须能在下集回收"
+    }
+  ],
+  "style_rules": [
+    "单集 60 秒：一场戏为主，高潮集才允许换景一次。",
+    "只给观众看证据，不给结论。",
+    "每个场景至少有一个可回看的道具。",
+    "台词节制，停顿比台词重要。",
+    "不得出现真实政治人物、政党、选举；不得出现毒枭暴力细节。",
+    "不得用超自然解释收尾（本风格只做现实主义悬疑）。"
+  ],
+  "system_prompt": "你是墨西哥身份悬疑竖屏短剧的编剧，擅长用物件和信息差制造悬念。\n你只输出严格合法的 JSON，不写解释、不加代码块。\n你必须遵守：\n1. 人物只能用给定名字与 ID。\n2. 不得违反人物「不可做」清单。\n3. 场景、物品、爽点、钩子只引用给定 ID。\n4. 台词用墨西哥西语口语，配中文意译。\n5. 每集严格 5 段时间轴，range 与 kind 照抄。\n6. 不得触碰市场红线。",
+  "episode_prompt": "【全剧设定】\n剧名：{{title}}\n题材组合：{{package}}\n市场：墨西哥（es-MX）· {{episode_count}} 集 · 单集 {{episode_seconds}} 秒\n内核：{{core}}\n主线骨架：{{arc}}\n城市：{{city}}\n对手：{{supports}}\n三层冲突：{{conflicts}}\n结局承诺：{{ending}}\n\n【本集】\n第 {{episode}} 集\n段位：第 {{seg_index}} 段「{{segment}}」（{{seg_range}}）\n本段任务：{{seg_goal}}\n本集需推进：{{episode_task}}\n\n【五段时间轴】\n{{timeline}}\n\n【人物卡】\n{{characters}}\n\n【可用场景】\n{{scenes}}\n\n【可用物品】\n{{props}}\n\n【语域】{{register}}；称谓变化：{{address_shift}}\n\n【前情提要】\\n{{recap}}\\n\\n【输出 JSON】\n{{output_skeleton}}\n\n写出这一集：让观众比角色早 30 秒知道真相。",
+  "output_skeleton": {
+    "episode": 0,
+    "title": "本集标题（中文，≤12 字）",
+    "logline": "本集一句话",
+    "segments": [
+      {
+        "range": "0-3s",
+        "kind": "open_hook",
+        "text": ""
+      },
+      {
+        "range": "3-15s",
+        "kind": "setup",
+        "text": ""
+      },
+      {
+        "range": "15-50s",
+        "kind": "escalation",
+        "text": ""
+      },
+      {
+        "range": "50-75s",
+        "kind": "reversal",
+        "text": ""
+      },
+      {
+        "range": "75-90s",
+        "kind": "cliff",
+        "text": ""
+      }
+    ],
+    "scenes": [
+      {
+        "slug": "1-1",
+        "scene_ref": "",
+        "location": "",
+        "time": "夜",
+        "cast_refs": [],
+        "action": "",
+        "lines": [
+          {
+            "speaker_ref": "",
+            "speaker": "",
+            "text": "",
+            "gloss": "",
+            "register": "中性"
+          }
+        ],
+        "props": [],
+        "camera": ""
+      }
+    ],
+    "beat": {
+      "ref": "",
+      "landing": "",
+      "info_gap": ""
+    },
+    "hook": {
+      "ref": "",
+      "promise": ""
+    },
+    "compliance": {
+      "risk_notes": []
+    }
+  },
+  "degrade_templates": {
+    "open_hook": "{{visual}}",
+    "setup": "{{scene}}，{{time}}。{{cast}}在，谁都没有先开口。",
+    "escalation": "{{conflict_staging}}。她把东西放回原位，位置比原来偏了两厘米。",
+    "reversal": "{{beat_text}}",
+    "cliff": "{{hook_text}}",
+    "line_register": {
+      "敬语": "usted",
+      "中性": "usted",
+      "熟稔": "tú",
+      "粗鲁": "tú",
+      "宗教语域": "usted"
+    }
+  },
+  "episode_seconds_default": 60,
+  "episode_count_default": 30,
+  "timing_note": "单集 60 秒，主体是 12–40s 的冲突段。台词总字数控制在中文 130–180 字（西语 90–120 词）以内；一场戏不超过 8 句对话。宁可少说，不可赶。",
+  "order": 2
+}

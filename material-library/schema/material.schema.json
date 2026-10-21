@@ -1,0 +1,281 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "material.schema.json",
+  "title": "海外短剧素材条目",
+  "description": "所有层（L1 现实素材 / L2 叙事要素）的通用条目结构。ID 规则：{MARKET}-{LAYER}-{NNN}",
+  "type": "object",
+  "required": ["id", "market", "layer", "type", "name", "s_level"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^(MX|ID|TH|VN|PH|MY)-(SCN|LOC|OBJ|REL|DIA|CAM|GEN|CHR|ARC|SUB|BEAT|HOK)-[0-9]{3}$",
+      "description": "唯一编码，公式组装时引用此值"
+    },
+    "market": {
+      "enum": ["MX", "ID", "TH", "VN", "PH", "MY"],
+      "description": "市场码。MX=墨西哥 ID=印尼 TH=泰国 VN=越南 PH=菲律宾 MY=马来西亚"
+    },
+    "layer": {
+      "enum": ["L1", "L2"],
+      "description": "L1=现实素材（世界长什么样） L2=叙事要素（故事怎么走）"
+    },
+    "type": {
+      "enum": [
+        "SCN", "LOC", "OBJ", "REL", "DIA", "CAM",
+        "GEN", "CHR", "ARC", "SUB", "BEAT", "HOK"
+      ]
+    },
+    "name": { "type": "string", "description": "人类可读名称，中文为主" },
+    "name_local": {
+      "type": "string",
+      "description": "本地语言叫法。海外素材必须有此项，产剧本时直接用于场景标题/台词"
+    },
+    "s_level": {
+      "enum": ["S0", "S1", "S2", "S3"],
+      "description": "可替换等级。S0=通用直用 S1=换皮 S2=重写 S3=禁区不可用。S3 条目不应入库，仅供红线表引用"
+    },
+    "s_note": {
+      "type": "string",
+      "description": "为什么是这个 S 等级、替换时要动什么"
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "自由标签：阶级/情绪/昼夜/成本/集数位置等"
+    },
+
+    "location": {
+      "type": "object",
+      "description": "type=LOC / SCN 时必填",
+      "properties": {
+        "country": { "type": "string" },
+        "region": { "type": "string" },
+        "city": { "type": "string" },
+        "district": { "type": "string" },
+        "class_profile": {
+          "enum": ["老钱", "新钱", "中产", "工薪", "贫困", "混合"],
+          "description": "阶级画像，写『阶级跨越』时靠它配对"
+        }
+      }
+    },
+
+    "scene": {
+      "type": "object",
+      "description": "type=SCN 时必填。这些字段直接决定能不能低成本拍",
+      "properties": {
+        "light": {
+          "enum": ["日", "夜", "晨昏", "室内暖光", "室内冷光", "混合"]
+        },
+        "cast_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "可拍人数上限。1-2 人优先入公式，群戏留给高潮集"
+        },
+        "props": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "典型道具，对应 OBJ 的 id 或名称"
+        },
+        "fits_beats": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "适配的桥段/爽点 id"
+        },
+        "ai_gen_difficulty": {
+          "enum": ["低", "中", "高"],
+          "description": "AI 生成难度，群戏和复杂光效为高"
+        }
+      }
+    },
+
+    "object_spec": {
+      "type": "object",
+      "description": "type=OBJ 时必填",
+      "properties": {
+        "category": {
+          "enum": ["身份符号", "情感信物", "剧情道具", "生活质感"]
+        },
+        "class_signal": {
+          "type": "string",
+          "description": "这个物件在本地观众眼里意味着什么阶级/身份"
+        },
+        "taboo_note": {
+          "type": "string",
+          "description": "使用禁忌。例：泰国佛像不可作装饰、sombrero 用错场合即冒犯"
+        }
+      }
+    },
+
+    "ritual": {
+      "type": "object",
+      "description": "type=REL 时必填",
+      "properties": {
+        "date": { "type": "string", "description": "日期或时段，如 11/1-11/2 或斋月" },
+        "plot_use": { "type": "string", "description": "能承载什么剧情功能" },
+        "risk": {
+          "enum": ["低", "中", "高"],
+          "description": "写错的后果严重度。高=宁可模糊处理不写细节"
+        },
+        "ritual_accuracy_required": {
+          "type": "boolean",
+          "description": "细节是否必须准确。true 时需当地人复核"
+        }
+      }
+    },
+
+    "dialogue": {
+      "type": "object",
+      "description": "type=DIA 时必填",
+      "properties": {
+        "category": {
+          "enum": ["称谓系统", "情绪爆点句", "阶层标记词", "禁忌词表"],
+          "description": "称谓系统价值最高：usted/tú、po/opo、พี่/n้อง 都是阶级与亲密度信号"
+        },
+        "speaker_class": { "type": "string", "description": "谁说的：富人/穷人/长辈/平辈" },
+        "addressee": { "type": "string" },
+        "register": {
+          "enum": ["敬语", "中性", "熟稔", "粗鲁", "宗教语域"]
+        },
+        "usage_note": {
+          "type": "string",
+          "description": "用法说明。台词库是语气采样库，不是可直接抄的句库"
+        }
+      }
+    },
+
+    "camera": {
+      "type": "object",
+      "description": "type=CAM 时必填",
+      "properties": {
+        "shot": { "type": "string" },
+        "cost": { "enum": ["低", "中", "高"] },
+        "aesthetic_note": { "type": "string", "description": "本地审美偏好：墨西哥暖调土色强反差 / 印尼明亮饱和 / 泰柔焦冷调" }
+      }
+    },
+
+    "character": {
+      "type": "object",
+      "description": "type=CHR 时必填。『不可做清单』是保证人设不崩的唯一硬手段",
+      "required": ["role", "class_position", "surface", "flaw", "secret", "never_do"],
+      "properties": {
+        "role": {
+          "enum": ["主角", "反派", "阻碍者", "助攻者", "信息携带者", "镜像角色", "道德裁判", "家族长辈", "群像背景"]
+        },
+        "archetype": { "type": "string", "description": "本地原型，如 la abuela 掌权祖母、OFW 归国母亲" },
+        "class_position": { "type": "string" },
+        "surface": { "type": "string", "description": "表面人格" },
+        "flaw": { "type": "string", "description": "真实缺陷，必须是主线阻力的内部层" },
+        "secret": { "type": "string" },
+        "speech": { "type": "string", "description": "说话方式，含称谓变化规划，如『称 usted 至第18集』" },
+        "visual_symbol": { "type": "string", "description": "视觉符号物，关联 OBJ id" },
+        "function_arc": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "剧情功能位移，如 [阻碍者, 镜像角色, 同盟]"
+        },
+        "never_do": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "type": "string" },
+          "description": "不可做清单。至少 2 条。写第30集崩人设的根因就是缺这个"
+        }
+      }
+    },
+
+    "genre": {
+      "type": "object",
+      "description": "type=GEN 时必填",
+      "properties": {
+        "core_desire": { "type": "string" },
+        "core_fear": { "type": "string" },
+        "moral_premise": { "type": "string" },
+        "market_fit": {
+          "enum": ["首选", "可用", "需改造", "不适配"]
+        },
+        "locked": {
+          "type": "boolean",
+          "description": "是否为本版锁定的唯一题材。同时只能有 1 个 true"
+        }
+      }
+    },
+
+    "arc": {
+      "type": "object",
+      "description": "type=ARC 主线 / SUB 支线 时必填。不给散文大纲，只给事件链",
+      "properties": {
+        "segments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "episode_range", "events"],
+            "properties": {
+              "name": { "type": "string", "description": "如 契约绑定 / 误会升级 / 真相裂缝 / 全面崩塌 / 反转和解" },
+              "episode_range": { "type": "string", "description": "如 1-8" },
+              "events": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["event", "state_change"],
+                  "properties": {
+                    "event": { "type": "string" },
+                    "state_change": { "type": "string", "description": "事件后关系/局势变成什么样" },
+                    "next_event": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "resistance_layers": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "enum": ["外部", "内部", "结构"]
+          },
+          "description": "阻力必须三层叠加，只靠反派撑不住 60 集"
+        },
+        "midpoint_reversal": { "type": "string" },
+        "lowest_point": { "type": "string" },
+        "final_cost": { "type": "string", "description": "终局代价，没有代价的结局没有情绪重量" }
+      }
+    },
+
+    "beat": {
+      "type": "object",
+      "description": "type=BEAT 爽点",
+      "properties": {
+        "kind": {
+          "enum": ["当众打脸", "身份揭穿", "反向示弱", "沉默碾压", "错位信息", "追妻火葬场", "打脸升级"]
+        },
+        "trigger": { "type": "string", "description": "触发条件：必须在什么前提下才成立" },
+        "position": { "type": "string", "description": "建议集数位置" },
+        "escalation_level": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "爽点强度。相邻两集不得同级，避免原地重复"
+        }
+      }
+    },
+
+    "hook": {
+      "type": "object",
+      "description": "type=HOK 钩子",
+      "properties": {
+        "kind": {
+          "enum": ["开场钩", "集尾悬念", "转折钩"]
+        },
+        "template": {
+          "type": "string",
+          "description": "可套的模板，用方括号标槽位，如 [身份误判]+[即将揭穿]+[倒计时]"
+        },
+        "filled_example": { "type": "string" },
+        "requires": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "需要哪些素材配合，如 [OBJ-MX-011, SCN-MX-002]"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "id": "mx-telenovela",
+  "name": "墨西哥 telenovela · 竖屏 60–90 秒",
+  "market": "MX",
+  "description": "阶级跨越 + 打脸复仇 + 伦理。拉美观众预期现成，成本可控。",
+  "output_language_default": "zh",
+  "language_note": "剧本说明与动作描述用中文；台词用墨西哥西语口语（es-MX），并在括号内给中文意译。禁止中性拉美西语。",
+  "segments": [
+    {
+      "name": "契约绑定",
+      "ratio": 0.133,
+      "goal": "用利益或胁迫把主角绑进一个不属于她的位置，观众要知道有人安排了这一切而主角不知道",
+      "event_hint": "顶替 / 签约 / 被迫入场 / 身份被指定"
+    },
+    {
+      "name": "误会升级",
+      "ratio": 0.267,
+      "goal": "信息差制造伤害，关系反复进退，称谓与距离必须有可见位移",
+      "event_hint": "被误解 / 被边缘化 / 一次靠自己能力赢 / 一次称谓改变"
+    },
+    {
+      "name": "真相裂缝",
+      "ratio": 0.233,
+      "goal": "配角泄露一个真相，主角与对手同时各暴露一半，裁判者失效",
+      "event_hint": "证据出现 / 身世被改写 / 长辈倒下 / 双方同时暴露"
+    },
+    {
+      "name": "全面崩塌",
+      "ratio": 0.2,
+      "goal": "最大的谎言被当众揭穿，主角跌到最低点，然后从逃转为反击",
+      "event_hint": "当众揭穿 / 决裂 / 归零 / 反攻开始"
+    },
+    {
+      "name": "反转与和解",
+      "ratio": 0.167,
+      "goal": "主角用前 50 集积累的东西反杀或放下，必须付出代价",
+      "event_hint": "清算 / 归还 / 让位 / 脱下某个符号物"
+    }
+  ],
+  "timeline": [
+    {
+      "range": "0-3s",
+      "kind": "open_hook",
+      "rule": "纯画面，不许旁白。3 秒内让观众知道有人被骗"
+    },
+    {
+      "range": "3-12s",
+      "kind": "setup",
+      "rule": "建立空间与关系，只允许 1–2 人，不许交代背景"
+    },
+    {
+      "range": "12-40s",
+      "kind": "escalation",
+      "rule": "冲突升级，必须含信息差（观众知道、某角色不知道）"
+    },
+    {
+      "range": "40-54s",
+      "kind": "reversal",
+      "rule": "爽点落点。用动作和物件，不用长篇台词"
+    },
+    {
+      "range": "54-60s",
+      "kind": "cliff",
+      "rule": "新信息/新人物/新威胁，必须能在下集回收"
+    }
+  ],
+  "style_rules": [
+    "单集 60 秒：一场戏为主，高潮集才允许换景一次。",
+    "阶级用可视化符号表达：肤色/口音/车/住区/佣人，不要用旁白解释。",
+    "usted ↔ tú 的切换就是关系转折，必须写成一个具体动作。",
+    "每集只有一个爽点落点，不许一集打两次脸。",
+    "台词越短越好。能用动作说的不说出口。",
+    "不得出现真实政治人物、政党、选举；不得出现毒枭暴力细节与炫富美学。",
+    "儿童不出现受虐细节；自杀不写具体方式。"
+  ],
+  "system_prompt": "你是墨西哥竖屏短剧（telenovela 传统 + TikTok Drama 节奏）的资深编剧，同时负责剧本一致性审校。\n你只输出严格合法的 JSON，不写任何解释性文字、不加 Markdown 代码块。\n你必须遵守：\n1. 人物只能用给定的名字与 ID，不得新增有名字的角色，不得改名。\n2. 不得违反任何人物的「不可做」清单——这是人设不崩的唯一硬约束。\n3. 场景、物品、爽点、钩子只能引用给定 ID，不得自造 ID。\n4. 台词用墨西哥西语口语（es-MX），配中文意译；说明与动作用中文。\n5. 每集严格 5 个时间轴段，range 与 kind 照抄，不得增删。\n6. 不得触碰市场红线（政治影射、毒枭美化、宗教戏谑、儿童受虐、原住民刻板印象）。",
+  "episode_prompt": "【全剧设定】\n剧名：{{title}}\n题材组合：{{package}}\n市场：墨西哥（es-MX）· {{episode_count}} 集 · 单集 {{episode_seconds}} 秒\n内核（一句话落点）：{{core}}\n主线骨架：{{arc}}\n城市与视觉基调：{{city}}\n对手：{{supports}}\n三层冲突：{{conflicts}}\n结局承诺：{{ending}}\n\n【本集】\n第 {{episode}} 集 / 共 {{episode_count}} 集\n主线段位：第 {{seg_index}} 段「{{segment}}」（第 {{seg_range}} 集）\n本段任务：{{seg_goal}}\n本集需推进：{{episode_task}}\n\n【五段时间轴 · 严格照此结构】\n{{timeline}}\n\n【人物卡 · 只能用这些名字与 ID】\n{{characters}}\n\n【本集可用场景 · scene_ref 必须照抄 ID】\n{{scenes}}\n\n【本集可用物品】\n{{props}}\n\n【语域】{{register}}；本集称谓变化：{{address_shift}}\n\n【前情提要】\\n{{recap}}\\n\\n【输出 JSON，键名照抄，不要多余字段】\n{{output_skeleton}}\n\n写出这一集。",
+  "output_skeleton": {
+    "episode": 0,
+    "title": "本集标题（中文，≤12 字）",
+    "logline": "本集一句话（中文）",
+    "segments": [
+      {
+        "range": "0-3s",
+        "kind": "open_hook",
+        "text": "画面与台词"
+      },
+      {
+        "range": "3-15s",
+        "kind": "setup",
+        "text": ""
+      },
+      {
+        "range": "15-50s",
+        "kind": "escalation",
+        "text": ""
+      },
+      {
+        "range": "50-75s",
+        "kind": "reversal",
+        "text": ""
+      },
+      {
+        "range": "75-90s",
+        "kind": "cliff",
+        "text": ""
+      }
+    ],
+    "scenes": [
+      {
+        "slug": "1-1",
+        "scene_ref": "照抄给定场景 ID",
+        "location": "本地叫法（中文）",
+        "time": "日/夜/晨昏",
+        "cast_refs": [
+          "照抄人物 ID"
+        ],
+        "action": "动作与调度（中文）",
+        "lines": [
+          {
+            "speaker_ref": "照抄人物 ID",
+            "speaker": "名字",
+            "text": "西语台词",
+            "gloss": "中文意译",
+            "register": "敬语"
+          }
+        ],
+        "props": [
+          "照抄物品 ID"
+        ],
+        "camera": "镜头"
+      }
+    ],
+    "beat": {
+      "ref": "照抄本集爽点 ID",
+      "landing": "落点怎么演",
+      "info_gap": "观众知道什么、谁不知道"
+    },
+    "hook": {
+      "ref": "照抄集尾钩子 ID",
+      "promise": "对下一集的承诺"
+    },
+    "compliance": {
+      "risk_notes": [
+        "本集可能踩线的点及规避方式"
+      ]
+    }
+  },
+  "degrade_templates": {
+    "open_hook": "{{visual}}——镜头停在她手上，不给脸。",
+    "setup": "{{scene}}，{{time}}。{{cast}}在场，只有两个人说话。",
+    "escalation": "{{conflict_staging}}。她说了一句不该说的话，对方没有接。",
+    "reversal": "{{beat_text}}",
+    "cliff": "{{hook_text}}",
+    "line_register": {
+      "敬语": "usted",
+      "中性": "usted",
+      "熟稔": "tú",
+      "粗鲁": "tú",
+      "宗教语域": "usted"
+    }
+  },
+  "episode_seconds_default": 60,
+  "episode_count_default": 30,
+  "timing_note": "单集 60 秒，主体是 12–40s 的冲突段。台词总字数控制在中文 130–180 字（西语 90–120 词）以内；一场戏不超过 8 句对话。宁可少说，不可赶。",
+  "order": 1
+}

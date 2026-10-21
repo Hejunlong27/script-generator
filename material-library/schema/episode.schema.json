@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "episode.schema.json",
+  "title": "短剧单集组装卡",
+  "description": "L3 公式层的落地单元。每集一张卡，把 L1 现实素材 + L2 叙事要素按固定槽位拼起来，再交给生成环节写成分场脚本。",
+  "type": "object",
+  "required": ["episode", "market", "arc_ref", "timeline", "cast", "scene_refs", "beat", "hook"],
+  "properties": {
+    "episode": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "集数。第一版骨架 60 集"
+    },
+    "market": {
+      "enum": ["MX", "ID", "TH", "VN", "PH", "MY"]
+    },
+    "arc_ref": {
+      "type": "string",
+      "pattern": "^(MX|ID|TH|VN|PH|MY)-ARC-[0-9]{3}$",
+      "description": "本集挂在哪条主线的哪个段位"
+    },
+    "arc_segment": {
+      "type": "string",
+      "description": "段位名：契约绑定 / 误会升级 / 真相裂缝 / 全面崩塌 / 反转和解"
+    },
+    "sub_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "本集激活的支线，可为空"
+    },
+
+    "timeline": {
+      "type": "object",
+      "description": "60-90 秒五段结构。这是节奏公式，不写进卡里就没法保证每集不掉速",
+      "required": ["open_hook", "setup", "escalation", "reversal", "cliff"],
+      "properties": {
+        "open_hook": {
+          "type": "object",
+          "required": ["range", "hook_ref"],
+          "properties": {
+            "range": { "const": "0-3s" },
+            "hook_ref": { "type": "string", "description": "HOK id" },
+            "content": { "type": "string", "description": "具体画面/台词，一句话" }
+          }
+        },
+        "setup": {
+          "type": "object",
+          "required": ["range"],
+          "properties": {
+            "range": { "const": "3-15s" },
+            "content": { "type": "string", "description": "建立空间与关系，只允许 1-2 人" }
+          }
+        },
+        "escalation": {
+          "type": "object",
+          "required": ["range"],
+          "properties": {
+            "range": { "const": "15-50s" },
+            "content": { "type": "string", "description": "冲突升级，必须含信息差（观众知/角色不知）" }
+          }
+        },
+        "reversal": {
+          "type": "object",
+          "required": ["range", "beat_ref"],
+          "properties": {
+            "range": { "const": "50-75s" },
+            "beat_ref": { "type": "string", "description": "BEAT id" },
+            "content": { "type": "string", "description": "打脸/翻转的落点" }
+          }
+        },
+        "cliff": {
+          "type": "object",
+          "required": ["range", "hook_ref"],
+          "properties": {
+            "range": { "const": "75-90s" },
+            "hook_ref": { "type": "string" },
+            "content": { "type": "string", "description": "引出下集的新信息/新威胁" }
+          }
+        }
+      }
+    },
+
+    "cast": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["chr_ref", "presence"],
+        "properties": {
+          "chr_ref": { "type": "string", "description": "CHR id" },
+          "presence": {
+            "enum": ["在场", "仅提及", "声音"],
+            "description": "控制成本：仅提及和声音是省钱利器"
+          },
+          "note": { "type": "string", "description": "本集该角色的功能" }
+        }
+      }
+    },
+
+    "scene_refs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "items": { "type": "string" },
+      "description": "本集场景，最多 2 个。超过 2 个换景成本失控"
+    },
+
+    "props": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "OBJ id。每集至少 1 个符号物，作为情绪载体或伏笔"
+    },
+
+    "camera": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "CAM id。低成本集优先 近景对峙 / 车内双人 / 空镜情绪 / 监控视角"
+    },
+
+    "dialogue_notes": {
+      "type": "object",
+      "description": "语域校准，不是台词稿。台词稿由生成环节产出",
+      "properties": {
+        "register": {
+          "enum": ["敬语", "中性", "熟稔", "粗鲁", "宗教语域"]
+        },
+        "address_shift": {
+          "type": "string",
+          "description": "本集称谓是否发生切换。墨西哥 usted→tú、菲律宾去掉 po、泰国 พี่/น้อง 变化，都是关系转折的实体信号"
+        },
+        "taboo_check": {
+          "type": "boolean",
+          "description": "是否已过当地禁忌词表"
+        }
+      }
+    },
+
+    "beat": {
+      "type": "object",
+      "required": ["beat_ref", "escalation_level"],
+      "properties": {
+        "beat_ref": { "type": "string" },
+        "escalation_level": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "相邻两集不得同值"
+        },
+        "info_gap": {
+          "type": "string",
+          "description": "信息差内容：观众知道什么、角色不知道什么。这是短剧留存的真正引擎"
+        }
+      }
+    },
+
+    "hook": {
+      "type": "object",
+      "required": ["cliff_ref"],
+      "properties": {
+        "cliff_ref": { "type": "string" },
+        "promise": {
+          "type": "string",
+          "description": "对下一集的承诺。必须在本集埋下可回收的点，不能凭空冒"
+        }
+      }
+    },
+
+    "compliance": {
+      "type": "object",
+      "description": "每集必过。一次踩线，账号和投放一起没",
+      "required": ["red_line_passed"],
+      "properties": {
+        "red_line_passed": { "type": "boolean" },
+        "checked_items": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "本集命中的红线项，逐条确认"
+        },
+        "notes": { "type": "string" }
+      }
+    },
+
+    "cost": {
+      "type": "object",
+      "properties": {
+        "cast_scenes": { "type": "integer", "description": "有人的场景数" },
+        "crowd_scenes": { "type": "integer", "description": "群戏场景数，理想为 0，高潮集才允许 1" },
+        "ai_difficulty": { "enum": ["低", "中", "高"] }
+      }
+    }
+  }
+}

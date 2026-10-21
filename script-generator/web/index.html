@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>剧本生成器 · 结构化要素组装</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="dot"></span>
+    <strong>剧本生成器</strong>
+    <span class="sub">题材 → 剧情 → 张力 → 收束 → 人物 → 世界 → 钩子</span>
+  </div>
+  <div class="cfg">
+    <label>剧名<input id="f-title" value="顶替新娘" size="12"></label>
+    <label>市场<select id="f-market"></select></label>
+    <label>风格<select id="f-style"></select></label>
+    <label>集数<input id="f-count" type="number" value="30" min="1" max="200" style="width:58px"></label>
+    <label>单集秒数<input id="f-secs" type="number" value="60" min="15" max="180" step="5" style="width:58px"></label>
+    <label>模式<select id="f-mode">
+      <option value="auto">auto（有 key 走模型）</option>
+      <option value="llm">llm（强制模型）</option>
+      <option value="template">template（纯模板，不花钱）</option>
+    </select></label>
+    <label>生成范围<input id="f-range" placeholder="全部 / 1-6" size="9"></label>
+    <button id="btn-llm" class="ghost icon" title="配置模型与 API Key">⚙ 模型</button>
+    <button id="btn-gen" class="primary">生成剧本</button>
+  </div>
+</header>
+
+<div class="statusbar" id="statusbar">
+  <span class="pill" id="pill-llm">模型：检查中</span>
+  <span class="pill" id="pill-lib">要素库：—</span>
+  <span class="pill" id="pill-check">校验：—</span>
+  <span class="grow"></span>
+  <span class="hintline" id="hintline"></span>
+</div>
+
+<main>
+  <!-- 左：要素选择 -->
+  <section class="pane left">
+    <div class="pane-head">
+      <h2>要素选择</h2>
+      <span class="seedtag" id="seedtag" title="随机种子。同一种子必然得到同一套补齐结果">seed —</span>
+      <select id="f-random" class="mini" title="随机度：决定自动补齐从多大的候选池里抽">
+        <option value="0">固定</option>
+        <option value="0.35">保守</option>
+        <option value="0.6" selected>平衡</option>
+        <option value="0.9">放开</option>
+      </select>
+      <button class="ghost" id="btn-reshuffle" title="清空后换一个种子，重新抽一套">🎲 换一批</button>
+      <button class="ghost" id="btn-autofill" title="保留已选，只填空白">补齐缺口</button>
+      <button class="ghost" id="btn-clear">清空</button>
+    </div>
+    <div id="slots" class="slots"></div>
+    <div id="override" class="override hidden"></div>
+  </section>
+
+  <!-- 右：结果 -->
+  <section class="pane right">
+    <nav class="tabs">
+      <button data-tab="plan" class="active">编译预览</button>
+      <button data-tab="script">剧本</button>
+      <button data-tab="prompt">Prompt</button>
+      <button data-tab="json">JSON</button>
+      <button data-tab="export">导出</button>
+    </nav>
+    <div id="progress" class="progress hidden">
+      <div class="bar"><i id="bar-fill"></i></div>
+      <span id="progress-text">准备中…</span>
+    </div>
+    <div id="tab-plan" class="tabbody"></div>
+    <div id="tab-script" class="tabbody hidden"></div>
+    <div id="tab-prompt" class="tabbody hidden"></div>
+    <div id="tab-json" class="tabbody hidden"></div>
+    <div id="tab-export" class="tabbody hidden"></div>
+  </section>
+</main>
+
+<!-- 模型配置 -->
+<div id="modal-llm" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>模型配置</h3>
+      <button class="ghost" id="llm-close">关闭</button>
+    </div>
+    <p class="modal-hint" id="llm-hint">API Key 只存在本机 <code>config.local.json</code>，不进版本库、不回传到页面。
+      环境变量 <code>SG_LLM_*</code> 优先级高于这里的设置。</p>
+
+    <div class="presets">
+      <span>一键填入：</span>
+      <button class="ghost" data-preset="deepseek">DeepSeek</button>
+      <button class="ghost" data-preset="openai">OpenAI</button>
+      <button class="ghost" data-preset="qwen">通义千问</button>
+      <button class="ghost" data-preset="zhipu">智谱</button>
+      <button class="ghost" data-preset="ollama">本地 Ollama</button>
+    </div>
+
+    <div class="form">
+      <label>BASE_URL<input id="llm-base" placeholder="https://api.deepseek.com/v1"></label>
+      <label>API KEY<input id="llm-key" type="password" placeholder="sk-…（已配置则留空表示不改）"></label>
+      <label>模型名<input id="llm-model" placeholder="deepseek-chat"></label>
+      <div class="row">
+        <label>温度<input id="llm-temp" type="number" step="0.1" min="0" max="2" placeholder="0.8"></label>
+        <label>超时（秒）<input id="llm-timeout" type="number" placeholder="120"></label>
+        <label>max_tokens<input id="llm-maxtok" type="number" placeholder="4000"></label>
+      </div>
+    </div>
+
+    <div id="llm-test" class="test-box hidden"></div>
+
+    <div class="modal-actions">
+      <button class="primary" id="llm-save">保存</button>
+      <button class="ghost" id="llm-btn-test">测试连接</button>
+      <button class="ghost danger" id="llm-clear">清除 Key</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+<script src="/app.js"></script>
+</body>
+</html>

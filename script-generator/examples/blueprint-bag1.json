@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "meta": {
+    "title": "顶替新娘",
+    "market": "MX",
+    "episode_count": 30,
+    "episode_seconds": 60,
+    "style": "mx-telenovela",
+    "output_language": "zh",
+    "seed": 20261020
+  },
+  "elements": {
+    "package": "MX-PKG-001",
+    "city": "MX-LOC-A30",
+    "core": "MX-COR-B03",
+    "arc": "MX-ARC-C01",
+    "hero": "MX-CHR-D01",
+    "supports": [
+      "MX-SPT-E01",
+      "MX-SPT-E02"
+    ],
+    "conflicts": [
+      "MX-CFT-F01",
+      "MX-CFT-F04",
+      "MX-CFT-F03"
+    ],
+    "open_hook": "MX-HOK-G01",
+    "ending": "MX-END-H15"
+  },
+  "overrides": {
+    "MX-CHR-D01": {
+      "name": "庄园女佣·埃莱娜",
+      "attrs.flaw": "别人给她东西，她第一反应是退回去——连一句好话都要退",
+      "attrs.never_do": [
+        "不主动索要任何东西，包括名分",
+        "不在人前哭，最多背过身去",
+        "不解释自己，哪怕被误会到最深处"
+      ]
+    }
+  },
+  "constraints": {
+    "max_cast_per_scene": 3,
+    "max_crowd_scenes": 3,
+    "max_scene_per_episode": 2,
+    "allow_s_levels": [
+      "S0",
+      "S1",
+      "S2"
+    ],
+    "auto_fill": true,
+    "forbidden_topics": [
+      "毒枭",
+      "总统",
+      "选举"
+    ],
+    "beat_level_min": 1,
+    "beat_level_max": 10
+  }
+}
