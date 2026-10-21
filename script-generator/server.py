@@ -53,7 +53,7 @@ class Handler(BaseHTTPRequestHandler):
 
     # ---------- 基础 ----------
     def log_message(self, fmt, *args):  # noqa: D401
-        print(f"[{self.log_date_time_string()}] {fmt % args}")
+        print(f"[{self.log_date_time_string()}] {fmt % args}", flush=True)
 
     def _json(self, obj, status=200):
         body = json.dumps(obj, ensure_ascii=False).encode("utf-8")
@@ -90,6 +90,11 @@ class Handler(BaseHTTPRequestHandler):
             ctype = "text/plain; charset=utf-8"
         data = path.read_bytes()
         self.send_response(200)
+        if path.suffix in (".html", ".js", ".css"):
+            # 前端改动要立刻生效。否则用户拿着旧 JS 打新接口，报错还查不出原因。
+            self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
+            self.send_header("Pragma", "no-cache")
+            self.send_header("Expires", "0")
         self.send_header("Content-Type", ctype)
         self.send_header("Content-Length", str(len(data)))
         if path.suffix in (".md", ".json", ".csv", ".fountain"):
@@ -132,6 +137,11 @@ class Handler(BaseHTTPRequestHandler):
                 self._json(snap)
             elif u.path.startswith("/api/download"):
                 name = (q.get("name") or [""])[0]
+                if not name:
+                    # 旧版前端传的是 path=out/xxx.md，兼容一下，免得老页面点下载就 403
+                    legacy = (q.get("path") or [""])[0]
+                    if legacy:
+                        name = legacy.replace("\\", "/").rsplit("/", 1)[-1]
                 out_dir = OUT.resolve()
                 target = (out_dir / name).resolve() if name else None
                 if not target or out_dir not in target.parents:

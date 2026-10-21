@@ -1,5 +1,16 @@
 'use strict';
 
+// 界面出错别静默 —— 至少让人知道发生了什么
+window.addEventListener('error', (e) => {
+  const msg = (e && e.message) || '未知脚本错误';
+  if (window.__toast) window.__toast('界面出错：' + msg, 6000);
+});
+window.addEventListener('unhandledrejection', (e) => {
+  const r = e && e.reason;
+  const msg = (r && r.message) || String(r || '请求失败');
+  if (window.__toast) window.__toast('请求出错：' + msg, 6000);
+});
+
 /* ============================================================
    状态
    ============================================================ */
@@ -28,6 +39,7 @@ const esc = (s) => String(s == null ? '' : s)
   .replace(/"/g, '&quot;');
 const short = (s, n = 30) => { s = String(s || ''); return s.length > n ? s.slice(0, n) + '…' : s; };
 
+window.__toast = null;
 function toast(msg, ms = 2600) {
   const t = $('#toast');
   t.textContent = msg;
@@ -35,6 +47,7 @@ function toast(msg, ms = 2600) {
   clearTimeout(t._t);
   t._t = setTimeout(() => t.classList.add('hidden'), ms);
 }
+window.__toast = toast;
 
 async function api(path, body) {
   const opt = body
