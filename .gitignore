@@ -19,3 +19,10 @@ Thumbs.db
 
 # 助手工作区元数据
 .workbuddy-ai/
+
+# 完整素材库（核心资产，不随源码公开）
+material-library/
+script-generator/data/elements/MX.elements.json
+script-generator/dist/
+script-generator/build/work/
+script-generator/build/*.spec

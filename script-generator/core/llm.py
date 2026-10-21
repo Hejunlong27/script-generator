@@ -24,8 +24,17 @@ from pathlib import Path
 
 from .errors import LLMBadResponseError, LLMError, LLMRateLimitError, LLMTimeoutError, NotConfiguredError
 
+def _config_path() -> Path:
+    """打包成 exe 后写到用户目录（程序目录可能不可写）。"""
+    import sys
+    if getattr(sys, "frozen", False):
+        base = os.environ.get("APPDATA") or str(Path.home())
+        return Path(base) / "ScriptGenerator" / "config.json"
+    return Path(__file__).resolve().parents[1] / "config.local.json"
+
+
 # 界面里填的模型配置存这里。**不进版本库**（见 .gitignore）。
-CONFIG_PATH = Path(__file__).resolve().parents[1] / "config.local.json"
+CONFIG_PATH = _config_path()
 
 
 def load_saved_config() -> dict:
@@ -41,6 +50,7 @@ def load_saved_config() -> dict:
 def save_config(patch: dict) -> dict:
     """合并保存。api_key 传空字符串表示"不改"，传 null 表示"清除"。"""
     cur = load_saved_config()
+    CONFIG_PATH.parent.mkdir(parents=True, exist_ok=True)
     for k in ("base_url", "api_key", "model", "timeout", "max_retries",
               "temperature", "max_tokens", "json_mode"):
         if k not in patch:

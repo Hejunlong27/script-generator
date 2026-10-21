@@ -20,6 +20,7 @@ import argparse
 import json
 import mimetypes
 import os
+import sys
 import threading
 import traceback
 import uuid
@@ -30,9 +31,18 @@ from urllib.parse import parse_qs, urlparse
 from core import pipeline
 from core.errors import SGError
 
+def _res_dir(sub: str) -> Path:
+    """打包后静态资源在解包目录，产物写到 exe 旁边（可写）。"""
+    import sys
+    if getattr(sys, "frozen", False):
+        return Path(getattr(sys, "_MEIPASS", Path(sys.executable).parent)) / sub
+    return Path(__file__).resolve().parent / sub
+
+
 ROOT = Path(__file__).resolve().parent
-WEB = ROOT / "web"
-OUT = ROOT / "out"
+WEB = _res_dir("web")
+OUT = (Path(sys.executable).parent / "out") if getattr(sys, "frozen", False) \
+      else ROOT / "out"
 
 JOBS: dict[str, dict] = {}
 JOBS_LOCK = threading.Lock()

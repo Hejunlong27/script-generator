@@ -1,0 +1,2409 @@
+{
+ "schema_version": "1.0",
+ "market": "MX",
+ "generated_from": "示例包（完整素材库不随源码公开）",
+ "market_base": {
+  "id": "MX-MKT-001",
+  "type": "market",
+  "type_cn": "市场底座",
+  "market": "MX",
+  "layer": "L0",
+  "name": "MX",
+  "tags": [],
+  "attrs": {
+   "red_lines": [
+    {
+     "name": "毒枭美化",
+     "note": "`narco` 题材在 Meta/TikTok 广告审核里是拒审高发项。**暴力细节、炫富式毒枭美学、警察对抗，全部规避**。见 §五 的替代方案"
+    },
+    {
+     "name": "政治人物影射",
+     "note": "总统、执政党、选举。**「总统」标签必须降级为州长/市长/企业掌门**"
+    },
+    {
+     "name": "原住民刻板印象",
+     "note": "把 indigenous 写成愚昧/野蛮/背景板，会招致公开批评。要写就写有主体性的人"
+    },
+    {
+     "name": "「白皮=富、棕肤=仆」当默认审美",
+     "note": "墨西哥有真实的 colorismo 问题。**这是最容易无意中踩的一条**"
+    },
+    {
+     "name": "圣母/圣像戏谑",
+     "note": "可以做情感符号，不能当笑料或性暗示道具"
+    },
+    {
+     "name": "儿童受虐细节",
+     "note": "平台硬性拒审"
+    },
+    {
+     "name": "自杀具体方式",
+     "note": "平台硬性拒审"
+    }
+   ],
+   "facts": {
+    "语言": "墨西哥西班牙语（es-MX）。**不要用中性拉美西语**——本地观众一听就出戏。用 `güey / órale / neta / chido / pinche` 这套",
+    "宗教": "天主教（名义 78%）。圣母瓜达卢佩是国民符号，不可戏谑",
+    "家庭结构": "扩展家庭。祖母（abuela）有实权，教母（madrina）/ 教父（compadre）是准亲属，一句话就能进别人家门",
+    "阶级符号": "肤色、口音、车、住区、佣人。**这四样一眼分贫富，是天生的镜头语言**",
+    "集数": "60–90 集，60–90 秒/集",
+    "付费": "小额多次 + 运营商代扣（Telcel/AT&T 为主）",
+    "平台": "TikTok Drama Center 为主投放口；Meta/TikTok 广告审核是实际生死线"
+   },
+   "unique_assets": [
+    {
+     "name": "**compadrazgo 教亲关系**",
+     "why": "一个人可以因为「我是你 compadre」合法进入别人家、替人做决定、甚至分遗产。**背叛 compadre 的情感重量 = 背叛亲兄弟 ×2**"
+    },
+    {
+     "name": "**brujería / mal de ojo 巫术与邪眼**",
+     "why": "「有人对她下了咒」可以作为整条线的物理动机，观众真信"
+    },
+    {
+     "name": "**quinceañera 十五岁成人礼**",
+     "why": "一场宴席 = 全家族的阶级审判现场。天然的群戏高潮场"
+    },
+    {
+     "name": "**mestizaje / colorismo 身份撕裂**",
+     "why": "「我到底是哪一边的人」是墨西哥国民级焦虑，比「我爱不爱你」更能留住人"
+    }
+   ]
+  },
+  "source": "mx/00-market.md"
+ },
+ "counts": {
+  "arc": 6,
+  "beat": 14,
+  "character": 6,
+  "city": 6,
+  "conflict": 10,
+  "core": 5,
+  "ending": 6,
+  "hook": 13,
+  "package": 2,
+  "prop": 12,
+  "scene": 12,
+  "support": 8
+ },
+ "elements": [
+  {
+   "id": "MX-ARC-C01",
+   "type": "arc",
+   "type_cn": "主线骨架",
+   "market": "MX",
+   "layer": "L2",
+   "name": "女佣顶替新娘进门 → 发现自己才是真继承人 → 她把位置让给了不想要它的人",
+   "tags": [
+    "FAM",
+    "IDE"
+   ],
+   "attrs": {
+    "skeleton": "女佣顶替新娘进门 → 发现自己才是真继承人 → 她把位置让给了不想要它的人",
+    "pairs_core": [
+     "B03"
+    ],
+    "structure_type": "反转"
+   },
+   "source": "picker/03-arc.md#C01"
+  },
+  {
+   "id": "MX-ARC-C03",
+   "type": "arc",
+   "type_cn": "主线骨架",
+   "market": "MX",
+   "layer": "L2",
+   "name": "豪门养女活得像个客人 → 查到自己的出生证明是伪造的 → 她选择继续用那个假名字",
+   "tags": [
+    "IDE",
+    "FAM"
+   ],
+   "attrs": {
+    "skeleton": "豪门养女活得像个客人 → 查到自己的出生证明是伪造的 → 她选择继续用那个假名字",
+    "pairs_core": [
+     "B01"
+    ],
+    "structure_type": "反转"
+   },
+   "source": "picker/03-arc.md#C03"
+  },
+  {
+   "id": "MX-ARC-C04",
+   "type": "arc",
+   "type_cn": "主线骨架",
+   "market": "MX",
+   "layer": "L2",
+   "name": "新娘逃婚，妹妹替嫁 → 丈夫爱的是逃走的那个 → 妹妹亲手把姐姐找回来",
+   "tags": [
+    "SEX",
+    "FAM"
+   ],
+   "attrs": {
+    "skeleton": "新娘逃婚，妹妹替嫁 → 丈夫爱的是逃走的那个 → 妹妹亲手把姐姐找回来",
+    "pairs_core": [
+     "B03"
+    ],
+    "structure_type": "对撞"
+   },
+   "source": "picker/03-arc.md#C04"
+  },
+  {
+   "id": "MX-ARC-C19",
+   "type": "arc",
+   "type_cn": "主线骨架",
+   "market": "MX",
+   "layer": "L2",
+   "name": "怀孕后发现丈夫隐瞒遗传病 → 她要离婚，家族要她生下来 → 她生下来，然后走了",
+   "tags": [
+    "FAM",
+    "SEX"
+   ],
+   "attrs": {
+    "skeleton": "怀孕后发现丈夫隐瞒遗传病 → 她要离婚，家族要她生下来 → 她生下来，然后走了",
+    "pairs_core": [
+     "B20"
+    ],
+    "structure_type": "对撞"
+   },
+   "source": "picker/03-arc.md#C19"
+  },
+  {
+   "id": "MX-ARC-C22",
+   "type": "arc",
+   "type_cn": "主线骨架",
+   "market": "MX",
+   "layer": "L2",
+   "name": "找了三年女儿 → 发现女儿在隔壁街长大 → 她没有相认，只在对面租了房子",
+   "tags": [
+    "FAM"
+   ],
+   "attrs": {
+    "skeleton": "找了三年女儿 → 发现女儿在隔壁街长大 → 她没有相认，只在对面租了房子",
+    "pairs_core": [
+     "B23"
+    ],
+    "structure_type": "对撞"
+   },
+   "source": "picker/03-arc.md#C22"
+  },
+  {
+   "id": "MX-ARC-C28",
+   "type": "arc",
+   "type_cn": "主线骨架",
+   "market": "MX",
+   "layer": "L2",
+   "name": "家里唯一不姓这个姓的人 → 遗嘱上却只有他 → 他把继承权换成了那家人一句道歉",
+   "tags": [
+    "FAM",
+    "IDE"
+   ],
+   "attrs": {
+    "skeleton": "家里唯一不姓这个姓的人 → 遗嘱上却只有他 → 他把继承权换成了那家人一句道歉",
+    "pairs_core": [
+     "B29"
+    ],
+    "structure_type": "交易"
+   },
+   "source": "picker/03-arc.md#C28"
+  },
+  {
+   "id": "MX-BEAT-003",
+   "type": "beat",
+   "type_cn": "爽点",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-BEAT-003",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [
+    "沉默碾压"
+   ],
+   "attrs": {
+    "kind": "沉默碾压",
+    "lvl": 3,
+    "text": "对方骂了整整一分钟。她只说了一句：usted 说完了吗。全场安静。",
+    "need": [
+     "MX-SCN-014"
+    ],
+    "note": "usted 这一个词就是全部杀伤力",
+    "_file": "03-hooks-beats.json",
+    "required_refs": [
+     "MX-SCN-014"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-BEAT-004",
+   "type": "beat",
+   "type_cn": "爽点",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-BEAT-004",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [
+    "错位信息"
+   ],
+   "attrs": {
+    "kind": "错位信息",
+    "lvl": 4,
+    "text": "观众早就知道孩子被换了，只有女主还在给别人的孩子喂奶。",
+    "need": [
+     "MX-SCN-023"
+    ],
+    "_file": "03-hooks-beats.json",
+    "required_refs": [
+     "MX-SCN-023"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-BEAT-006",
+   "type": "beat",
+   "type_cn": "爽点",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-BEAT-006",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [
+    "追妻火葬场"
+   ],
+   "attrs": {
+    "kind": "追妻火葬场",
+    "lvl": 7,
+    "text": "他终于跪下求她回来。她说：我现在站着，就是当年跪着的样子。",
+    "need": [
+     "MX-SCN-002"
+    ],
+    "_file": "03-hooks-beats.json",
+    "required_refs": [
+     "MX-SCN-002"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-BEAT-009",
+   "type": "beat",
+   "type_cn": "爽点",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-BEAT-009",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [
+    "身份揭穿"
+   ],
+   "attrs": {
+    "kind": "身份揭穿",
+    "lvl": 6,
+    "text": "医生当众宣布她的病无药可治。巫医在后排说：因为你治的是身体，她病的是名声。",
+    "need": [
+     "MX-SCN-013"
+    ],
+    "_file": "03-hooks-beats.json",
+    "required_refs": [
+     "MX-SCN-013"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-BEAT-010",
+   "type": "beat",
+   "type_cn": "爽点",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-BEAT-010",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [
+    "沉默碾压"
+   ],
+   "attrs": {
+    "kind": "沉默碾压",
+    "lvl": 2,
+    "text": "对方摔碎了她的东西。她弯腰一片片捡起来，然后说：这块我要另外算钱。",
+    "need": [
+     "MX-OBJ-040"
+    ],
+    "_file": "03-hooks-beats.json",
+    "required_refs": [
+     "MX-OBJ-040"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-BEAT-011",
+   "type": "beat",
+   "type_cn": "爽点",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-BEAT-011",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [
+    "错位信息"
+   ],
+   "attrs": {
+    "kind": "错位信息",
+    "lvl": 5,
+    "text": "丈夫一边骂她是骗子，一边偷偷把她的身份证缝进自己外套。",
+    "need": [
+     "MX-OBJ-029"
+    ],
+    "_file": "03-hooks-beats.json",
+    "required_refs": [
+     "MX-OBJ-029"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-BEAT-013",
+   "type": "beat",
+   "type_cn": "爽点",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-BEAT-013",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [
+    "追妻火葬场"
+   ],
+   "attrs": {
+    "kind": "追妻火葬场",
+    "lvl": 6,
+    "text": "她走了。他每天在她旧房间坐十分钟，第六十天他终于发现床底下那件婚纱。",
+    "need": [
+     "MX-SCN-016",
+     "MX-OBJ-018"
+    ],
+    "_file": "03-hooks-beats.json",
+    "required_refs": [
+     "MX-SCN-016",
+     "MX-OBJ-018"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-BEAT-014",
+   "type": "beat",
+   "type_cn": "爽点",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-BEAT-014",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [
+    "打脸升级"
+   ],
+   "attrs": {
+    "kind": "打脸升级",
+    "lvl": 9,
+    "text": "她一一赴约，把当年签过字的每个人叫到同一张桌子前，逐个还债。",
+    "need": [
+     "MX-SCN-015"
+    ],
+    "_file": "03-hooks-beats.json",
+    "required_refs": [
+     "MX-SCN-015"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-BEAT-015",
+   "type": "beat",
+   "type_cn": "爽点",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-BEAT-015",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [
+    "身份揭穿"
+   ],
+   "attrs": {
+    "kind": "身份揭穿",
+    "lvl": 8,
+    "text": "她终于说出自己的真名。在场的老人全部站起来——因为那个姓，是三十年前被抹掉的那个。",
+    "need": [
+     "MX-SCN-004"
+    ],
+    "_file": "03-hooks-beats.json",
+    "required_refs": [
+     "MX-SCN-004"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-BEAT-016",
+   "type": "beat",
+   "type_cn": "爽点",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-BEAT-016",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [
+    "沉默碾压"
+   ],
+   "attrs": {
+    "kind": "沉默碾压",
+    "lvl": 1,
+    "text": "她把杯子放回桌上，声音比对方说话还响。全场停了一秒。",
+    "need": [],
+    "note": "微爽。60 集里这种小动作要占一半，不然大爽点会疲劳",
+    "_file": "03-hooks-beats.json",
+    "required_refs": []
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-BEAT-019",
+   "type": "beat",
+   "type_cn": "爽点",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-BEAT-019",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [
+    "沉默碾压"
+   ],
+   "attrs": {
+    "kind": "沉默碾压",
+    "lvl": 2,
+    "text": "结账时她把零钱一枚枚数清递过去，不多不少。",
+    "need": [
+     "MX-OBJ-042"
+    ],
+    "_file": "03-hooks-beats.json",
+    "required_refs": [
+     "MX-OBJ-042"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-BEAT-021",
+   "type": "beat",
+   "type_cn": "爽点",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-BEAT-021",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [
+    "当众打脸"
+   ],
+   "attrs": {
+    "kind": "当众打脸",
+    "lvl": 3,
+    "text": "有人造谣，她不解释。第二天穿得比在场所有人都好出现。",
+    "need": [],
+    "_file": "03-hooks-beats.json",
+    "required_refs": []
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-BEAT-023",
+   "type": "beat",
+   "type_cn": "爽点",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-BEAT-023",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [
+    "反向示弱"
+   ],
+   "attrs": {
+    "kind": "反向示弱",
+    "lvl": 4,
+    "text": "对方施舍她一样东西，她说：不用了，我自己有。",
+    "need": [],
+    "_file": "03-hooks-beats.json",
+    "required_refs": []
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-BEAT-030",
+   "type": "beat",
+   "type_cn": "爽点",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-BEAT-030",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [
+    "错位信息"
+   ],
+   "attrs": {
+    "kind": "错位信息",
+    "lvl": 8,
+    "text": "最后一集她打开那封信，所有人都以为她要揭穿。她看完，把信烧了：他欠我的，我自己讨。",
+    "need": [
+     "MX-OBJ-039"
+    ],
+    "note": "观众期待落空，但情绪更高",
+    "_file": "03-hooks-beats.json",
+    "required_refs": [
+     "MX-OBJ-039"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-CHR-D01",
+   "type": "character",
+   "type_cn": "主角人设",
+   "market": "MX",
+   "layer": "L2",
+   "name": "庄园女佣",
+   "tags": [
+    "CLA",
+    "IDE"
+   ],
+   "attrs": {
+    "identity": "庄园女佣",
+    "surface": "温顺、做事实在",
+    "flaw": "别人给东西，她先退回去",
+    "secret": "她才是真继承人"
+   },
+   "source": "picker/04-hero.md#D01"
+  },
+  {
+   "id": "MX-CHR-D03",
+   "type": "character",
+   "type_cn": "主角人设",
+   "market": "MX",
+   "layer": "L2",
+   "name": "假结婚新娘",
+   "tags": [
+    "IDE",
+    "MON"
+   ],
+   "attrs": {
+    "identity": "假结婚新娘",
+    "surface": "逆来顺受",
+    "flaw": "从不解释自己",
+    "secret": "她是被安排进来的"
+   },
+   "source": "picker/04-hero.md#D03"
+  },
+  {
+   "id": "MX-CHR-D06",
+   "type": "character",
+   "type_cn": "主角人设",
+   "market": "MX",
+   "layer": "L2",
+   "name": "单亲母亲",
+   "tags": [
+    "FAM",
+    "SEX"
+   ],
+   "attrs": {
+    "identity": "单亲母亲",
+    "surface": "强硬、什么都扛",
+    "flaw": "不会求助",
+    "secret": "孩子在医院不是她生的"
+   },
+   "source": "picker/04-hero.md#D06"
+  },
+  {
+   "id": "MX-CHR-D11",
+   "type": "character",
+   "type_cn": "主角人设",
+   "market": "MX",
+   "layer": "L2",
+   "name": "出租车司机",
+   "tags": [
+    "CRI",
+    "CLA"
+   ],
+   "attrs": {
+    "identity": "出租车司机",
+    "surface": "话多、熟路",
+    "flaw": "靠讲别人的人生回避自己的",
+    "secret": "他的乘客里有一个是杀手"
+   },
+   "source": "picker/04-hero.md#D11"
+  },
+  {
+   "id": "MX-CHR-D17",
+   "type": "character",
+   "type_cn": "主角人设",
+   "market": "MX",
+   "layer": "L2",
+   "name": "厨师",
+   "tags": [
+    "FAM",
+    "VIO"
+   ],
+   "attrs": {
+    "identity": "厨师",
+    "surface": "粗声粗气",
+    "flaw": "用做饭表达所有感情",
+    "secret": "她给这个家下了十年的药"
+   },
+   "source": "picker/04-hero.md#D17"
+  },
+  {
+   "id": "MX-CHR-D23",
+   "type": "character",
+   "type_cn": "主角人设",
+   "market": "MX",
+   "layer": "L2",
+   "name": "私生子",
+   "tags": [
+    "IDE",
+    "FAM"
+   ],
+   "attrs": {
+    "identity": "私生子",
+    "surface": "客气、随时准备走",
+    "flaw": "从不主动坐下",
+    "secret": "他的出生证明是伪造的"
+   },
+   "source": "picker/04-hero.md#D23"
+  },
+  {
+   "id": "MX-LOC-A01",
+   "type": "city",
+   "type_cn": "城市背景",
+   "market": "MX",
+   "layer": "L1",
+   "name": "CDMX · Polanco",
+   "tags": [
+    "CLA",
+    "MON"
+   ],
+   "attrs": {
+    "place": "CDMX · Polanco",
+    "visual": "玻璃塔楼下是法式老公寓，遛狗的人穿得比狗贵"
+   },
+   "source": "picker/01-city.md#A01"
+  },
+  {
+   "id": "MX-LOC-A03",
+   "type": "city",
+   "type_cn": "城市背景",
+   "market": "MX",
+   "layer": "L1",
+   "name": "CDMX · Iztapalapa",
+   "tags": [
+    "CLA",
+    "FAM"
+   ],
+   "attrs": {
+    "place": "CDMX · Iztapalapa",
+    "visual": "自建砖房一层层摞上山坡，晾衣绳横跨整条街"
+   },
+   "source": "picker/01-city.md#A03"
+  },
+  {
+   "id": "MX-LOC-A11",
+   "type": "city",
+   "type_cn": "城市背景",
+   "market": "MX",
+   "layer": "L1",
+   "name": "Oaxaca · 中心",
+   "tags": [
+    "FAM",
+    "SUP"
+   ],
+   "attrs": {
+    "place": "Oaxaca · 中心",
+    "visual": "彩色墙面、市集、原住民语言比西语多"
+   },
+   "source": "picker/01-city.md#A11"
+  },
+  {
+   "id": "MX-LOC-A15",
+   "type": "city",
+   "type_cn": "城市背景",
+   "market": "MX",
+   "layer": "L1",
+   "name": "Tijuana · 边境",
+   "tags": [
+    "CRI",
+    "IDE"
+   ],
+   "attrs": {
+    "place": "Tijuana · 边境",
+    "visual": "铁丝网、药房、等着过境的人"
+   },
+   "source": "picker/01-city.md#A15"
+  },
+  {
+   "id": "MX-LOC-A20",
+   "type": "city",
+   "type_cn": "城市背景",
+   "market": "MX",
+   "layer": "L1",
+   "name": "León · 皮革区",
+   "tags": [
+    "FAM",
+    "OCC"
+   ],
+   "attrs": {
+    "place": "León · 皮革区",
+    "visual": "制鞋厂、家庭作坊、一个镇上全是亲戚"
+   },
+   "source": "picker/01-city.md#A20"
+  },
+  {
+   "id": "MX-LOC-A30",
+   "type": "city",
+   "type_cn": "城市背景",
+   "market": "MX",
+   "layer": "L1",
+   "name": "无名小城（虚构）",
+   "tags": [
+    "FAM",
+    "REL"
+   ],
+   "attrs": {
+    "place": "无名小城（虚构）",
+    "visual": "一个邮局、一个广场、一个所有人都认识所有人的地方"
+   },
+   "source": "picker/01-city.md#A30"
+  },
+  {
+   "id": "MX-CFT-F01",
+   "type": "conflict",
+   "type_cn": "冲突内核",
+   "market": "MX",
+   "layer": "L2",
+   "name": "家族要她走",
+   "tags": [
+    "FAM"
+   ],
+   "attrs": {
+    "conflict": "家族要她走",
+    "layer": "外部",
+    "staging": "全家人轮流来劝，每次都带礼物"
+   },
+   "source": "picker/06-conflict.md#F01"
+  },
+  {
+   "id": "MX-CFT-F03",
+   "type": "conflict",
+   "type_cn": "冲突内核",
+   "market": "MX",
+   "layer": "L2",
+   "name": "她不配姓这个姓",
+   "tags": [
+    "CLA",
+    "IDE"
+   ],
+   "attrs": {
+    "conflict": "她不配姓这个姓",
+    "layer": "结构",
+    "staging": "登记处的人当众要求她出示父亲的签字"
+   },
+   "source": "picker/06-conflict.md#F03"
+  },
+  {
+   "id": "MX-CFT-F04",
+   "type": "conflict",
+   "type_cn": "冲突内核",
+   "market": "MX",
+   "layer": "L2",
+   "name": "她自己也觉得不配",
+   "tags": [
+    "CLA"
+   ],
+   "attrs": {
+    "conflict": "她自己也觉得不配",
+    "layer": "内部",
+    "staging": "每次上桌吃饭都最后一个坐、坐最边"
+   },
+   "source": "picker/06-conflict.md#F04"
+  },
+  {
+   "id": "MX-CFT-F05",
+   "type": "conflict",
+   "type_cn": "冲突内核",
+   "market": "MX",
+   "layer": "L2",
+   "name": "教父的「人情」必须还",
+   "tags": [
+    "FAM"
+   ],
+   "attrs": {
+    "conflict": "教父的「人情」必须还",
+    "layer": "外部",
+    "staging": "他每次只提一件小事，越提越大"
+   },
+   "source": "picker/06-conflict.md#F05"
+  },
+  {
+   "id": "MX-CFT-F09",
+   "type": "conflict",
+   "type_cn": "冲突内核",
+   "market": "MX",
+   "layer": "L2",
+   "name": "丈夫不肯放手",
+   "tags": [
+    "SEX",
+    "CRI"
+   ],
+   "attrs": {
+    "conflict": "丈夫不肯放手",
+    "layer": "外部",
+    "staging": "他把她的鞋全收走，只留一双"
+   },
+   "source": "picker/06-conflict.md#F09"
+  },
+  {
+   "id": "MX-CFT-F11",
+   "type": "conflict",
+   "type_cn": "冲突内核",
+   "market": "MX",
+   "layer": "L2",
+   "name": "她怀的不是他的孩子",
+   "tags": [
+    "SEX"
+   ],
+   "attrs": {
+    "conflict": "她怀的不是他的孩子",
+    "layer": "内部",
+    "staging": "她每天数日子，不敢看日历"
+   },
+   "source": "picker/06-conflict.md#F11"
+  },
+  {
+   "id": "MX-CFT-F13",
+   "type": "conflict",
+   "type_cn": "冲突内核",
+   "market": "MX",
+   "layer": "L2",
+   "name": "母亲用爱控制她",
+   "tags": [
+    "FAM"
+   ],
+   "attrs": {
+    "conflict": "母亲用爱控制她",
+    "layer": "外部",
+    "staging": "每次都用「我为你付出了什么」开头"
+   },
+   "source": "picker/06-conflict.md#F13"
+  },
+  {
+   "id": "MX-CFT-F16",
+   "type": "conflict",
+   "type_cn": "冲突内核",
+   "market": "MX",
+   "layer": "L2",
+   "name": "仇人是她唯一的亲人",
+   "tags": [
+    "FAM",
+    "VIO"
+   ],
+   "attrs": {
+    "conflict": "仇人是她唯一的亲人",
+    "layer": "结构",
+    "staging": "血缘上他们不能互相毁掉，否则全家完"
+   },
+   "source": "picker/06-conflict.md#F16"
+  },
+  {
+   "id": "MX-CFT-F19",
+   "type": "conflict",
+   "type_cn": "冲突内核",
+   "market": "MX",
+   "layer": "L2",
+   "name": "她怕自己变成施害者",
+   "tags": [
+    "VIO"
+   ],
+   "attrs": {
+    "conflict": "她怕自己变成施害者",
+    "layer": "内部",
+    "staging": "她第一次动手后，对着镜子看了很久"
+   },
+   "source": "picker/06-conflict.md#F19"
+  },
+  {
+   "id": "MX-CFT-F22",
+   "type": "conflict",
+   "type_cn": "冲突内核",
+   "market": "MX",
+   "layer": "L2",
+   "name": "这里女人不能继承",
+   "tags": [
+    "CLA",
+    "FAM"
+   ],
+   "attrs": {
+    "conflict": "这里女人不能继承",
+    "layer": "结构",
+    "staging": "遗嘱上写明只传男丁，她只能当「代管人」"
+   },
+   "source": "picker/06-conflict.md#F22"
+  },
+  {
+   "id": "MX-COR-B01",
+   "type": "core",
+   "type_cn": "剧情内核",
+   "market": "MX",
+   "layer": "L2",
+   "name": "一个女人用别人的名字活了十年，直到真正的名字找上门。",
+   "tags": [
+    "IDE"
+   ],
+   "attrs": {
+    "one_line": "一个女人用别人的名字活了十年，直到真正的名字找上门。",
+    "desire": "身份"
+   },
+   "source": "picker/02-core.md#B01"
+  },
+  {
+   "id": "MX-COR-B03",
+   "type": "core",
+   "type_cn": "剧情内核",
+   "market": "MX",
+   "layer": "L2",
+   "name": "她替姐姐嫁进这个家，第八年才发现，当初该嫁的人是她。",
+   "tags": [
+    "FAM"
+   ],
+   "attrs": {
+    "one_line": "她替姐姐嫁进这个家，第八年才发现，当初该嫁的人是她。",
+    "desire": "顶替"
+   },
+   "source": "picker/02-core.md#B03"
+  },
+  {
+   "id": "MX-COR-B20",
+   "type": "core",
+   "type_cn": "剧情内核",
+   "market": "MX",
+   "layer": "L2",
+   "name": "她终于怀孕了，医生说孩子会遗传她丈夫家的那个病——而丈夫从没提过。",
+   "tags": [
+    "FAM",
+    "SEX"
+   ],
+   "attrs": {
+    "one_line": "她终于怀孕了，医生说孩子会遗传她丈夫家的那个病——而丈夫从没提过。",
+    "desire": "隐瞒"
+   },
+   "source": "picker/02-core.md#B20"
+  },
+  {
+   "id": "MX-COR-B23",
+   "type": "core",
+   "type_cn": "剧情内核",
+   "market": "MX",
+   "layer": "L2",
+   "name": "他找了三年的女儿，一直在隔壁那条街长大，管别人叫妈妈。",
+   "tags": [
+    "FAM"
+   ],
+   "attrs": {
+    "one_line": "他找了三年的女儿，一直在隔壁那条街长大，管别人叫妈妈。",
+    "desire": "寻找"
+   },
+   "source": "picker/02-core.md#B23"
+  },
+  {
+   "id": "MX-COR-B29",
+   "type": "core",
+   "type_cn": "剧情内核",
+   "market": "MX",
+   "layer": "L2",
+   "name": "他是这个家里唯一一个不姓这个姓的人，也是唯一一个在遗嘱上被写了名字的人。",
+   "tags": [
+    "FAM",
+    "IDE"
+   ],
+   "attrs": {
+    "one_line": "他是这个家里唯一一个不姓这个姓的人，也是唯一一个在遗嘱上被写了名字的人。",
+    "desire": "归认"
+   },
+   "source": "picker/02-core.md#B29"
+  },
+  {
+   "id": "MX-END-H01",
+   "type": "ending",
+   "type_cn": "结局走向",
+   "market": "MX",
+   "layer": "L2",
+   "name": "她拿回了名字，但所有人都知道了她当年用假名的原因。",
+   "tags": [
+    "IDE"
+   ],
+   "attrs": {
+    "ending": "她拿回了名字，但所有人都知道了她当年用假名的原因。",
+    "emotion": "苦涩胜利"
+   },
+   "source": "picker/08-ending.md#H01"
+  },
+  {
+   "id": "MX-END-H03",
+   "type": "ending",
+   "type_cn": "结局走向",
+   "market": "MX",
+   "layer": "L2",
+   "name": "她把位置让给真千金，条件是孩子归她。",
+   "tags": [
+    "FAM"
+   ],
+   "attrs": {
+    "ending": "她把位置让给真千金，条件是孩子归她。",
+    "emotion": "交易式和解"
+   },
+   "source": "picker/08-ending.md#H03"
+  },
+  {
+   "id": "MX-END-H06",
+   "type": "ending",
+   "type_cn": "结局走向",
+   "market": "MX",
+   "layer": "L2",
+   "name": "她终于开口说出那口井的事，说完就离开这座城。",
+   "tags": [
+    "REL"
+   ],
+   "attrs": {
+    "ending": "她终于开口说出那口井的事，说完就离开这座城。",
+    "emotion": "解脱"
+   },
+   "source": "picker/08-ending.md#H06"
+  },
+  {
+   "id": "MX-END-H15",
+   "type": "ending",
+   "type_cn": "结局走向",
+   "market": "MX",
+   "layer": "L2",
+   "name": "她把念珠放回墓前，脱下围裙，走了。",
+   "tags": [
+    "FAM"
+   ],
+   "attrs": {
+    "ending": "她把念珠放回墓前，脱下围裙，走了。",
+    "emotion": "干净"
+   },
+   "source": "picker/08-ending.md#H15"
+  },
+  {
+   "id": "MX-END-H16",
+   "type": "ending",
+   "type_cn": "结局走向",
+   "market": "MX",
+   "layer": "L2",
+   "name": "她赢了一切，但孩子管别人叫妈。",
+   "tags": [
+    "FAM"
+   ],
+   "attrs": {
+    "ending": "她赢了一切，但孩子管别人叫妈。",
+    "emotion": "空赢"
+   },
+   "source": "picker/08-ending.md#H16"
+  },
+  {
+   "id": "MX-END-H21",
+   "type": "ending",
+   "type_cn": "结局走向",
+   "market": "MX",
+   "layer": "L2",
+   "name": "巫医死了，她的病好了。她开始免费给村里人看诊。",
+   "tags": [
+    "SUP"
+   ],
+   "attrs": {
+    "ending": "巫医死了，她的病好了。她开始免费给村里人看诊。",
+    "emotion": "接棒"
+   },
+   "source": "picker/08-ending.md#H21"
+  },
+  {
+   "id": "MX-HOK-001",
+   "type": "hook",
+   "type_cn": "钩子",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-HOK-001",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [],
+   "attrs": {
+    "pkg": [
+     1
+    ],
+    "text": "婚礼进行到一半，新娘从裙底抽出一张身份证，当场撕了——照片上的人不是她。",
+    "why": "3 秒内完成三件事：仪式、身份、谎言。观众立刻知道有人顶替",
+    "need": [
+     "MX-SCN-004",
+     "MX-OBJ-018"
+    ],
+    "_file": "03-hooks-beats.json",
+    "kind": "开场钩",
+    "required_refs": [
+     "MX-SCN-004",
+     "MX-OBJ-018"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-HOK-002",
+   "type": "hook",
+   "type_cn": "钩子",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-HOK-002",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [],
+   "attrs": {
+    "pkg": [
+     6
+    ],
+    "text": "生日蛋糕上插着六根蜡烛。母亲笑着让女儿许愿，手里攥着一张刚出的血型报告。",
+    "why": "温馨画面 + 冷道具，反差就是钩子",
+    "need": [
+     "MX-SCN-012",
+     "MX-OBJ-007"
+    ],
+    "_file": "03-hooks-beats.json",
+    "kind": "开场钩",
+    "required_refs": [
+     "MX-SCN-012",
+     "MX-OBJ-007"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-HOK-003",
+   "type": "hook",
+   "type_cn": "钩子",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-HOK-003",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [],
+   "attrs": {
+    "pkg": [
+     2
+    ],
+    "text": "女人在数药片，一片一片摆成整齐的一排。镜头拉远，她数的不是药——是外套内衬里护照的第几个针脚。",
+    "why": "行为异常 + 物理悬念，观众必须往下看",
+    "need": [
+     "MX-SCN-022",
+     "MX-OBJ-029",
+     "MX-OBJ-022"
+    ],
+    "_file": "03-hooks-beats.json",
+    "kind": "开场钩",
+    "required_refs": [
+     "MX-SCN-022",
+     "MX-OBJ-029",
+     "MX-OBJ-022"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-HOK-004",
+   "type": "hook",
+   "type_cn": "钩子",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-HOK-004",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [],
+   "attrs": {
+    "pkg": [
+     7
+    ],
+    "text": "丈夫下葬第三天。她第一次解锁他的手机，相册里 4000 张照片全是偷拍的她自己——而他三年前就瞎了。",
+    "why": "『不可能的人做了不可能的事』是最强的开场结构",
+    "need": [
+     "MX-SCN-023",
+     "MX-OBJ-027"
+    ],
+    "_file": "03-hooks-beats.json",
+    "kind": "开场钩",
+    "required_refs": [
+     "MX-SCN-023",
+     "MX-OBJ-027"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-HOK-016",
+   "type": "hook",
+   "type_cn": "钩子",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-HOK-016",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [],
+   "attrs": {
+    "pkg": [
+     1
+    ],
+    "text": "女佣收拾房间，在床底下摸到一个塑料袋，里面是她十年前那件婚纱。",
+    "why": "有人一直在保存她的过去，谁？",
+    "need": [
+     "MX-SCN-023"
+    ],
+    "_file": "03-hooks-beats.json",
+    "kind": "集尾悬念",
+    "required_refs": [
+     "MX-SCN-023"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-HOK-017",
+   "type": "hook",
+   "type_cn": "钩子",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-HOK-017",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [],
+   "attrs": {
+    "pkg": [
+     2
+    ],
+    "text": "她终于拿到了护照。翻开第一页，签发日期是三年前——那时候她还没嫁进来。",
+    "why": "丈夫早就准备好了放她走，为什么没给？",
+    "need": [
+     "MX-OBJ-022"
+    ],
+    "_file": "03-hooks-beats.json",
+    "kind": "集尾悬念",
+    "required_refs": [
+     "MX-OBJ-022"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-HOK-018",
+   "type": "hook",
+   "type_cn": "钩子",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-HOK-018",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [],
+   "attrs": {
+    "pkg": [
+     6
+    ],
+    "text": "女儿在电话里喊了声『爸爸』。电话那头应了，但她丈夫就站在她身后。",
+    "why": "电话里的是谁？",
+    "need": [
+     "MX-SCN-002",
+     "MX-OBJ-027"
+    ],
+    "_file": "03-hooks-beats.json",
+    "kind": "集尾悬念",
+    "required_refs": [
+     "MX-SCN-002",
+     "MX-OBJ-027"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-HOK-019",
+   "type": "hook",
+   "type_cn": "钩子",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-HOK-019",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [],
+   "attrs": {
+    "pkg": [
+     3
+    ],
+    "text": "移民局的人走后，男主从口袋里掏出一张纸，上面是她的真实姓名、真实生日、真实国籍——全都是假的。",
+    "why": "他早就知道，从第一天就知道",
+    "need": [
+     "MX-SCN-020"
+    ],
+    "_file": "03-hooks-beats.json",
+    "kind": "集尾悬念",
+    "required_refs": [
+     "MX-SCN-020"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-HOK-031",
+   "type": "hook",
+   "type_cn": "钩子",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-HOK-031",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [],
+   "attrs": {
+    "pkg": [
+     1
+    ],
+    "text": "她以为女主人恨她。整理遗物时发现，女主人每年都替她交一份保险，受益人是她。",
+    "why": "恨的背面是保护，反转情绪",
+    "need": [
+     "MX-SCN-014"
+    ],
+    "_file": "03-hooks-beats.json",
+    "kind": "转折钩",
+    "required_refs": [
+     "MX-SCN-014"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-HOK-032",
+   "type": "hook",
+   "type_cn": "钩子",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-HOK-032",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [],
+   "attrs": {
+    "pkg": [
+     3
+    ],
+    "text": "他一直没有碰她，她以为他嫌弃她。体检报告上写着：他的手三年前就废了。",
+    "why": "冷淡有了身体原因，虐点变泪点",
+    "need": [
+     "MX-OBJ-007"
+    ],
+    "_file": "03-hooks-beats.json",
+    "kind": "转折钩",
+    "required_refs": [
+     "MX-OBJ-007"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-HOK-033",
+   "type": "hook",
+   "type_cn": "钩子",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-HOK-033",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [],
+   "attrs": {
+    "pkg": [
+     2
+    ],
+    "text": "她以为丈夫在追杀她。枪声响了，倒下的却是跟了她三条街的那个男人。",
+    "why": "追杀者其实是保护者",
+    "need": [
+     "MX-SCN-018"
+    ],
+    "_file": "03-hooks-beats.json",
+    "kind": "转折钩",
+    "required_refs": [
+     "MX-SCN-018"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-HOK-034",
+   "type": "hook",
+   "type_cn": "钩子",
+   "market": "MX",
+   "layer": "L2",
+   "name": "MX-HOK-034",
+   "name_local": "",
+   "s_level": "S1",
+   "tags": [],
+   "attrs": {
+    "pkg": [
+     6
+    ],
+    "text": "她恨了六年的『小三』，在葬礼上递给她一个信封：这是你女儿的医疗费，你丈夫不敢自己去交。",
+    "why": "仇恨对象变成恩人，且揭示丈夫的隐忍",
+    "need": [
+     "MX-SCN-021"
+    ],
+    "_file": "03-hooks-beats.json",
+    "kind": "转折钩",
+    "required_refs": [
+     "MX-SCN-021"
+    ]
+   },
+   "source": "mx/03-hooks-beats.json"
+  },
+  {
+   "id": "MX-HOK-G01",
+   "type": "hook",
+   "type_cn": "开场钩子",
+   "market": "MX",
+   "layer": "L2",
+   "name": "她在自己婚礼上撕掉身份证，照片不是她。",
+   "tags": [
+    "IDE",
+    "FAM"
+   ],
+   "attrs": {
+    "visual": "她在自己婚礼上撕掉身份证，照片不是她。",
+    "requires_desc": "婚礼 / 证件",
+    "kind": "开场钩"
+   },
+   "source": "picker/07-hook.md#G01"
+  },
+  {
+   "id": "MX-PKG-001",
+   "type": "package",
+   "type_cn": "题材组合包",
+   "market": "MX",
+   "layer": "L2",
+   "name": "顶替新娘",
+   "tags": [
+    "替身",
+    "豪门",
+    "虐恋",
+    "复仇",
+    "伦理"
+   ],
+   "attrs": {
+    "no": 1,
+    "remark": "最优先做",
+    "labels": [
+     "替身",
+     "豪门",
+     "虐恋",
+     "复仇",
+     "伦理"
+    ],
+    "sellpoint": "拉美市场最认的一套，观众预期现成，不用教育",
+    "core_hook": "新娘跑了，女佣穿上婚纱走进教堂。十年后她成了女主人，真千金跪在她面前叫「妈妈」 投放钩：前 3 秒直接切「穿婚纱的女人在洗手间撕掉一张身份证」",
+    "scenes": [
+     "MX-SCN-001",
+     "MX-SCN-004",
+     "MX-SCN-008",
+     "MX-SCN-012"
+    ],
+    "props": [
+     "婚纱",
+     "祖母的念珠",
+     "遗嘱",
+     "亲子鉴定"
+    ],
+    "risk": "",
+    "advantage": "",
+    "preset_cores": [
+     "MX-COR-B03",
+     "MX-COR-B01",
+     "MX-COR-B29"
+    ],
+    "preset_arcs": [
+     "MX-ARC-C01",
+     "MX-ARC-C04",
+     "MX-ARC-C03",
+     "MX-ARC-C28"
+    ],
+    "preset_note": "库作者验证过的组合（README 示例一）",
+    "readiness": {
+     "coverage": "完整",
+     "gaps": 0,
+     "shootability": "已试跑 3 集",
+     "ready": true
+    },
+    "ready": true,
+    "gaps": 0
+   },
+   "source": "01-genres.md#包1"
+  },
+  {
+   "id": "MX-PKG-006",
+   "type": "package",
+   "type_cn": "题材组合包",
+   "market": "MX",
+   "layer": "L2",
+   "name": "这个孩子不是你的",
+   "tags": [
+    "萌宝",
+    "怀孕",
+    "总裁",
+    "团宠",
+    "伦理"
+   ],
+   "attrs": {
+    "no": 6,
+    "remark": "",
+    "labels": [
+     "萌宝",
+     "怀孕",
+     "总裁",
+     "团宠",
+     "伦理"
+    ],
+    "sellpoint": "催泪核弹组合。萌宝 + 抱错 + 认亲，拉美观众的眼泪开关",
+    "core_hook": "女儿六岁生日那天，幼儿园做了血型检测。她看着报告单上的 O 型，想起自己是 AB 型——而她丈夫，也是 AB 型 投放钩：开场是生日蛋糕上的蜡烛被吹灭，字幕：`O 型`",
+    "scenes": [
+     "MX-SCN-012",
+     "MX-SCN-026",
+     "MX-SCN-002"
+    ],
+    "props": [],
+    "risk": "",
+    "advantage": "",
+    "preset_cores": [
+     "MX-COR-B23",
+     "MX-COR-B20"
+    ],
+    "preset_arcs": [
+     "MX-ARC-C22",
+     "MX-ARC-C19"
+    ],
+    "preset_note": "成本最低的一包：孩子 + 室内 + 少道具",
+    "readiness": {
+     "coverage": "基本齐",
+     "gaps": 2,
+     "shootability": "可用",
+     "ready": true
+    },
+    "ready": true,
+    "gaps": 2
+   },
+   "source": "01-genres.md#包6"
+  },
+  {
+   "id": "MX-OBJ-001",
+   "type": "prop",
+   "type_cn": "物品",
+   "market": "MX",
+   "layer": "L1",
+   "name": "皮卡",
+   "name_local": "camioneta",
+   "s_level": "S0",
+   "tags": [
+    "身份符号"
+   ],
+   "attrs": {
+    "cat": "身份符号",
+    "signal": "真老钱开皮卡，暴发户开跑车。这是墨西哥最好用的反符号",
+    "taboo": "",
+    "_file": "02-scenes-objects.json"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-OBJ-002",
+   "type": "prop",
+   "type_cn": "物品",
+   "market": "MX",
+   "layer": "L1",
+   "name": "祖父的旧手表",
+   "name_local": "reloj del abuelo",
+   "s_level": "S0",
+   "tags": [
+    "情感信物"
+   ],
+   "attrs": {
+    "cat": "情感信物",
+    "signal": "装在皮表带上的老机械表，比任何奢侈品都贵",
+    "taboo": "",
+    "_file": "02-scenes-objects.json"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-OBJ-004",
+   "type": "prop",
+   "type_cn": "物品",
+   "market": "MX",
+   "layer": "L1",
+   "name": "祖母的念珠",
+   "name_local": "rosario de la abuela",
+   "s_level": "S1",
+   "tags": [
+    "情感信物"
+   ],
+   "attrs": {
+    "cat": "情感信物",
+    "signal": "家族权力的实体化。谁拿着念珠，谁就是家里的道德权威",
+    "taboo": "",
+    "_file": "02-scenes-objects.json"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-OBJ-006",
+   "type": "prop",
+   "type_cn": "物品",
+   "market": "MX",
+   "layer": "L1",
+   "name": "遗嘱",
+   "name_local": "testamento",
+   "s_level": "S0",
+   "tags": [
+    "剧情道具"
+   ],
+   "attrs": {
+    "cat": "剧情道具",
+    "signal": "墨西哥家族剧的第一武器",
+    "taboo": "",
+    "_file": "02-scenes-objects.json"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-OBJ-007",
+   "type": "prop",
+   "type_cn": "物品",
+   "market": "MX",
+   "layer": "L1",
+   "name": "亲子鉴定报告",
+   "name_local": "prueba de ADN",
+   "s_level": "S0",
+   "tags": [
+    "剧情道具"
+   ],
+   "attrs": {
+    "cat": "剧情道具",
+    "signal": "一页纸能炸掉整部剧",
+    "taboo": "",
+    "_file": "02-scenes-objects.json"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-OBJ-008",
+   "type": "prop",
+   "type_cn": "物品",
+   "market": "MX",
+   "layer": "L1",
+   "name": "结婚证",
+   "name_local": "acta de matrimonio",
+   "s_level": "S0",
+   "tags": [
+    "剧情道具"
+   ],
+   "attrs": {
+    "cat": "剧情道具",
+    "signal": "假结婚线的核心物。撕掉它 = 关系破裂的可见动作",
+    "taboo": "",
+    "_file": "02-scenes-objects.json"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-OBJ-010",
+   "type": "prop",
+   "type_cn": "物品",
+   "market": "MX",
+   "layer": "L1",
+   "name": "石臼",
+   "name_local": "molcajete",
+   "s_level": "S0",
+   "tags": [
+    "生活质感"
+   ],
+   "attrs": {
+    "cat": "生活质感",
+    "signal": "谁用它做酱，谁就是这个家真正的女主人",
+    "taboo": "",
+    "_file": "02-scenes-objects.json"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-OBJ-018",
+   "type": "prop",
+   "type_cn": "物品",
+   "market": "MX",
+   "layer": "L1",
+   "name": "婚纱",
+   "name_local": "vestido de novia",
+   "s_level": "S0",
+   "tags": [
+    "身份符号"
+   ],
+   "attrs": {
+    "cat": "身份符号",
+    "signal": "谁穿它，谁就在这一刻被重新定义阶级",
+    "taboo": "",
+    "_file": "02-scenes-objects.json"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-OBJ-019",
+   "type": "prop",
+   "type_cn": "物品",
+   "market": "MX",
+   "layer": "L1",
+   "name": "围裙",
+   "name_local": "mandil",
+   "s_level": "S0",
+   "tags": [
+    "身份符号"
+   ],
+   "attrs": {
+    "cat": "身份符号",
+    "signal": "脱掉围裙的动作 = 身份切换的开关",
+    "taboo": "",
+    "_file": "02-scenes-objects.json"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-OBJ-021",
+   "type": "prop",
+   "type_cn": "物品",
+   "market": "MX",
+   "layer": "L1",
+   "name": "孕检单",
+   "name_local": "ultrasonido",
+   "s_level": "S0",
+   "tags": [
+    "剧情道具"
+   ],
+   "attrs": {
+    "cat": "剧情道具",
+    "signal": "一张纸改变三个人的人生",
+    "taboo": "",
+    "_file": "02-scenes-objects.json"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-OBJ-022",
+   "type": "prop",
+   "type_cn": "物品",
+   "market": "MX",
+   "layer": "L1",
+   "name": "护照",
+   "name_local": "pasaporte",
+   "s_level": "S0",
+   "tags": [
+    "剧情道具"
+   ],
+   "attrs": {
+    "cat": "剧情道具",
+    "signal": "『往北走』的通行证。藏起来 = 囚禁",
+    "taboo": "",
+    "_file": "02-scenes-objects.json"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-OBJ-049",
+   "type": "prop",
+   "type_cn": "物品",
+   "market": "MX",
+   "layer": "L1",
+   "name": "孩子的成绩单",
+   "name_local": "boleta de calificaciones",
+   "s_level": "S0",
+   "tags": [
+    "情感信物"
+   ],
+   "attrs": {
+    "cat": "情感信物",
+    "signal": "满分成绩单贴在墙上，是穷人家庭唯一挂得出来的奖状",
+    "taboo": "",
+    "_file": "02-scenes-objects.json"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-SCN-001",
+   "type": "scene",
+   "type_cn": "场景",
+   "market": "MX",
+   "layer": "L1",
+   "name": "庄园天井",
+   "name_local": "patio de la hacienda",
+   "s_level": "S0",
+   "tags": [
+    "老钱"
+   ],
+   "attrs": {
+    "class": "老钱",
+    "light": "日/晨昏",
+    "cast": 3,
+    "direct": 2,
+    "props": [
+     "石拱廊",
+     "陶罐",
+     "藤椅"
+    ],
+    "fits": [
+     "对峙",
+     "求婚",
+     "家族会议",
+     "揭穿"
+    ],
+    "note": "墨西哥最贵的镜头语言：拱廊形成天然画框，人物一前一后天然有压迫感。整部剧的『权力场』都用它",
+    "_file": "02-scenes-objects.json",
+    "cast_max": 3,
+    "ai_difficulty": "中"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-SCN-002",
+   "type": "scene",
+   "type_cn": "场景",
+   "market": "MX",
+   "layer": "L1",
+   "name": "豪宅客厅",
+   "name_local": "sala de la casa grande",
+   "s_level": "S0",
+   "tags": [
+    "新钱/老钱"
+   ],
+   "attrs": {
+    "class": "新钱/老钱",
+    "light": "室内暖光",
+    "cast": 3,
+    "direct": 1,
+    "props": [
+     "落地窗帘",
+     "壁炉",
+     "家族合影"
+    ],
+    "fits": [
+     "审问",
+     "羞辱",
+     "和解"
+    ],
+    "note": "家族合影是伏笔神器：后期换一张照片就能翻出旧秘密",
+    "_file": "02-scenes-objects.json",
+    "cast_max": 3,
+    "ai_difficulty": "中"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-SCN-003",
+   "type": "scene",
+   "type_cn": "场景",
+   "market": "MX",
+   "layer": "L1",
+   "name": "廉价公寓",
+   "name_local": "vecindad / cuarto de renta",
+   "s_level": "S0",
+   "tags": [
+    "工薪/贫困"
+   ],
+   "attrs": {
+    "class": "工薪/贫困",
+    "light": "日/夜",
+    "cast": 2,
+    "direct": 1,
+    "props": [
+     "铁架床",
+     "电线",
+     "塑料布",
+     "圣母像"
+    ],
+    "fits": [
+     "贫困日常",
+     "藏人",
+     "密谈"
+    ],
+    "note": "墙上必有圣母像或瓜达卢佩挂历，这是真实生活质感，不是布景",
+    "_file": "02-scenes-objects.json",
+    "cast_max": 2,
+    "ai_difficulty": "低"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-SCN-004",
+   "type": "scene",
+   "type_cn": "场景",
+   "market": "MX",
+   "layer": "L1",
+   "name": "教堂",
+   "name_local": "iglesia",
+   "s_level": "S0",
+   "tags": [
+    "混合"
+   ],
+   "attrs": {
+    "class": "混合",
+    "light": "室内冷光",
+    "cast": 4,
+    "direct": 1,
+    "props": [
+     "长椅",
+     "蜡烛",
+     "圣像",
+     "婚纱"
+    ],
+    "fits": [
+     "婚礼",
+     "誓言",
+     "忏悔",
+     "揭穿"
+    ],
+    "note": "宣誓 + 揭穿双重功能。长椅的排列本身就是社会结构",
+    "_file": "02-scenes-objects.json",
+    "cast_max": 4,
+    "ai_difficulty": "高"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-SCN-008",
+   "type": "scene",
+   "type_cn": "场景",
+   "market": "MX",
+   "layer": "L1",
+   "name": "佣人厨房",
+   "name_local": "cocina de servicio",
+   "s_level": "S0",
+   "tags": [
+    "贫困"
+   ],
+   "attrs": {
+    "class": "贫困",
+    "light": "室内暖光",
+    "cast": 3,
+    "direct": 1,
+    "props": [
+     "comal 烙饼铁板",
+     "molcajete 石臼",
+     "围裙"
+    ],
+    "fits": [
+     "佣人视角",
+     "偷听",
+     "结盟"
+    ],
+    "note": "豪宅里真正的情报中心。女佣永远知道得比主人多",
+    "_file": "02-scenes-objects.json",
+    "cast_max": 3,
+    "ai_difficulty": "中"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-SCN-009",
+   "type": "scene",
+   "type_cn": "场景",
+   "market": "MX",
+   "layer": "L1",
+   "name": "豪宅厨房",
+   "name_local": "cocina principal",
+   "s_level": "S0",
+   "tags": [
+    "老钱"
+   ],
+   "attrs": {
+    "class": "老钱",
+    "light": "日/室内暖光",
+    "cast": 2,
+    "direct": 1,
+    "props": [
+     "中岛",
+     "铜锅",
+     "鲜花"
+    ],
+    "fits": [
+     "越界对手戏",
+     "夜谈"
+    ],
+    "note": "主仆同处一室但各有各的厨房，这个设定本身就是阶级隐喻",
+    "_file": "02-scenes-objects.json",
+    "cast_max": 2,
+    "ai_difficulty": "低"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-SCN-012",
+   "type": "scene",
+   "type_cn": "场景",
+   "market": "MX",
+   "layer": "L1",
+   "name": "十五岁成人礼宴会厅",
+   "name_local": "salón de quinceañera",
+   "s_level": "S1",
+   "tags": [
+    "混合"
+   ],
+   "attrs": {
+    "class": "混合",
+    "light": "夜/暖光",
+    "cast": 8,
+    "direct": 3,
+    "props": [
+     "蛋糕",
+     "气球",
+     "长桌",
+     "乐队"
+    ],
+    "fits": [
+     "阶级审判",
+     "当众打脸",
+     "身份揭穿"
+    ],
+    "note": "全剧最高价值的群戏场。一桌人坐哪里就是阶级图谱。成本高，留给高潮",
+    "_file": "02-scenes-objects.json",
+    "cast_max": 8,
+    "ai_difficulty": "高"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-SCN-014",
+   "type": "scene",
+   "type_cn": "场景",
+   "market": "MX",
+   "layer": "L1",
+   "name": "大宅书房",
+   "name_local": "despacho",
+   "s_level": "S0",
+   "tags": [
+    "老钱/新钱"
+   ],
+   "attrs": {
+    "class": "老钱/新钱",
+    "light": "室内暖光",
+    "cast": 2,
+    "direct": 1,
+    "props": [
+     "皮椅",
+     "保险柜",
+     "威士忌",
+     "账本"
+    ],
+    "fits": [
+     "谈判",
+     "威胁",
+     "签文件"
+    ],
+    "note": "保险柜里放什么，就是这个家的核心秘密",
+    "_file": "02-scenes-objects.json",
+    "cast_max": 2,
+    "ai_difficulty": "低"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-SCN-021",
+   "type": "scene",
+   "type_cn": "场景",
+   "market": "MX",
+   "layer": "L1",
+   "name": "墓地",
+   "name_local": "panteón",
+   "s_level": "S0",
+   "tags": [
+    "混合"
+   ],
+   "attrs": {
+    "class": "混合",
+    "light": "晨昏/日",
+    "cast": 3,
+    "direct": 2,
+    "props": [
+     "墓碑",
+     "万寿菊",
+     "塑料花"
+    ],
+    "fits": [
+     "真相揭示",
+     "悼念",
+     "秘密告白"
+    ],
+    "note": "Día de Muertos 期间是墨西哥独有的强场景，整片万寿菊田",
+    "_file": "02-scenes-objects.json",
+    "cast_max": 3,
+    "ai_difficulty": "中"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-SCN-026",
+   "type": "scene",
+   "type_cn": "场景",
+   "market": "MX",
+   "layer": "L1",
+   "name": "幼儿园门口",
+   "name_local": "puerta del kínder",
+   "s_level": "S0",
+   "tags": [
+    "混合"
+   ],
+   "attrs": {
+    "class": "混合",
+    "light": "日",
+    "cast": 4,
+    "direct": 2,
+    "props": [
+     "铁门",
+     "小书包",
+     "家长群"
+    ],
+    "fits": [
+     "接孩子",
+     "认亲",
+     "母亲对峙"
+    ],
+    "note": "『谁来接孩子』是社会身份的最快证明",
+    "_file": "02-scenes-objects.json",
+    "cast_max": 4,
+    "ai_difficulty": "高"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-SCN-031",
+   "type": "scene",
+   "type_cn": "场景",
+   "market": "MX",
+   "layer": "L1",
+   "name": "律师办公室",
+   "name_local": "despacho del licenciado",
+   "s_level": "S0",
+   "tags": [
+    "中产/新钱"
+   ],
+   "attrs": {
+    "class": "中产/新钱",
+    "light": "室内冷光",
+    "cast": 3,
+    "direct": 1,
+    "props": [
+     "文件柜",
+     "公文包",
+     "钢笔",
+     "印章"
+    ],
+    "fits": [
+     "宣读遗嘱",
+     "签协议",
+     "私下威胁"
+    ],
+    "note": "遗嘱/身份类剧情的必需场。桌上摆什么文件，就是这一集的信息量",
+    "_file": "02-scenes-objects.json",
+    "cast_max": 3,
+    "ai_difficulty": "中"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-SCN-034",
+   "type": "scene",
+   "type_cn": "场景",
+   "market": "MX",
+   "layer": "L1",
+   "name": "民事登记处",
+   "name_local": "Registro Civil",
+   "s_level": "S0",
+   "tags": [
+    "混合"
+   ],
+   "attrs": {
+    "class": "混合",
+    "light": "室内冷光",
+    "cast": 3,
+    "direct": 1,
+    "props": [
+     "号牌机",
+     "窗口",
+     "表格",
+     "钢印"
+    ],
+    "fits": [
+     "查出生证明",
+     "改名",
+     "补办结婚登记"
+    ],
+    "note": "全剧最大的秘密往往藏在一个窗口后面的一张纸上",
+    "_file": "02-scenes-objects.json",
+    "cast_max": 3,
+    "ai_difficulty": "中"
+   },
+   "source": "mx/02-scenes-objects.json"
+  },
+  {
+   "id": "MX-SPT-E01",
+   "type": "support",
+   "type_cn": "对手与配角",
+   "market": "MX",
+   "layer": "L2",
+   "name": "掌权祖母",
+   "tags": [
+    "FAM",
+    "REL"
+   ],
+   "attrs": {
+    "identity": "掌权祖母",
+    "slot": "裁判者",
+    "relation": "唯一能给主角名分的人",
+    "never_do": "不吼，越平静越可怕"
+   },
+   "source": "picker/05-rival.md#E01"
+  },
+  {
+   "id": "MX-SPT-E02",
+   "type": "support",
+   "type_cn": "对手与配角",
+   "market": "MX",
+   "layer": "L2",
+   "name": "归来的真千金",
+   "tags": [
+    "IDE",
+    "FAM"
+   ],
+   "attrs": {
+    "identity": "归来的真千金",
+    "slot": "掠夺者",
+    "relation": "抢位置的人，也是镜像",
+    "never_do": "不亲自动手，只签文件"
+   },
+   "source": "picker/05-rival.md#E02"
+  },
+  {
+   "id": "MX-SPT-E05",
+   "type": "support",
+   "type_cn": "对手与配角",
+   "market": "MX",
+   "layer": "L2",
+   "name": "想脱离的黑道丈夫",
+   "tags": [
+    "CRI",
+    "SEX"
+   ],
+   "attrs": {
+    "identity": "想脱离的黑道丈夫",
+    "slot": "看守者",
+    "relation": "控制她，也用命护她",
+    "never_do": "不展示暴力细节"
+   },
+   "source": "picker/05-rival.md#E05"
+  },
+  {
+   "id": "MX-SPT-E06",
+   "type": "support",
+   "type_cn": "对手与配角",
+   "market": "MX",
+   "layer": "L2",
+   "name": "主角的姐姐",
+   "tags": [
+    "FAM",
+    "SEX"
+   ],
+   "attrs": {
+    "identity": "主角的姐姐",
+    "slot": "掠夺者",
+    "relation": "她逃婚，让妹妹顶替",
+    "never_do": "不纯粹的坏，要有一场可怜戏"
+   },
+   "source": "picker/05-rival.md#E06"
+  },
+  {
+   "id": "MX-SPT-E16",
+   "type": "support",
+   "type_cn": "对手与配角",
+   "market": "MX",
+   "layer": "L2",
+   "name": "女佣首领",
+   "tags": [
+    "CLA"
+   ],
+   "attrs": {
+    "identity": "女佣首领",
+    "slot": "信息携带",
+    "relation": "知道这栋房子所有的事",
+    "never_do": "不当工具人，要有自己要的东西"
+   },
+   "source": "picker/05-rival.md#E16"
+  },
+  {
+   "id": "MX-SPT-E18",
+   "type": "support",
+   "type_cn": "对手与配角",
+   "market": "MX",
+   "layer": "L2",
+   "name": "六岁女儿",
+   "tags": [
+    "FAM"
+   ],
+   "attrs": {
+    "identity": "六岁女儿",
+    "slot": "道德裁判",
+    "relation": "一句话刺穿所有伪装",
+    "never_do": "不卖萌，不说超龄的话"
+   },
+   "source": "picker/05-rival.md#E18"
+  },
+  {
+   "id": "MX-SPT-E20",
+   "type": "support",
+   "type_cn": "对手与配角",
+   "market": "MX",
+   "layer": "L2",
+   "name": "老实丈夫",
+   "tags": [
+    "FAM"
+   ],
+   "attrs": {
+    "identity": "老实丈夫",
+    "slot": "助攻者",
+    "relation": "唯一从头到尾信她的人",
+    "never_do": "不强大，靠笨办法帮"
+   },
+   "source": "picker/05-rival.md#E20"
+  },
+  {
+   "id": "MX-SPT-E22",
+   "type": "support",
+   "type_cn": "对手与配角",
+   "market": "MX",
+   "layer": "L2",
+   "name": "主角的闺蜜",
+   "tags": [
+    "SEX",
+    "FAM"
+   ],
+   "attrs": {
+    "identity": "主角的闺蜜",
+    "slot": "镜像角色",
+    "relation": "走同一条路，选了另一个答案",
+    "never_do": "不背叛，但也不帮忙"
+   },
+   "source": "picker/05-rival.md#E22"
+  }
+ ]
+}

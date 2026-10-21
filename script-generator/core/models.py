@@ -30,7 +30,15 @@ from .errors import (
     RefNotFoundError,
 )
 
-DATA_DIR = Path(__file__).resolve().parents[1] / "data"
+def _data_dir() -> Path:
+    """打包成 exe 后，data 在 PyInstaller 的解包目录里。"""
+    import sys
+    if getattr(sys, "frozen", False):
+        return Path(getattr(sys, "_MEIPASS", Path(sys.executable).parent)) / "data"
+    return Path(__file__).resolve().parents[1] / "data"
+
+
+DATA_DIR = _data_dir()
 
 ID_RE = re.compile(r"^[A-Z]{2}-[A-Z]{3}-(?:[A-Z]?\d{2,3})$")
 
@@ -148,13 +156,19 @@ class Library:
     @classmethod
     def load(cls, market: str = "MX", data_dir: Path | None = None) -> "Library":
         d = data_dir or DATA_DIR
-        path = d / "elements" / f"{market.upper()}.elements.json"
+        edir = d / "elements"
+        path = edir / f"{market.upper()}.elements.json"
         if not path.is_file():
-            raise LibraryError(
-                f"要素包不存在: {path}",
-                hint="先跑 python tools/build_elements.py 从素材库编译",
-                where=str(path),
-            )
+            # 完整素材库不随源码公开，仓库里只有示例包
+            sample = edir / f"{market.upper()}.elements.sample.json"
+            if sample.is_file():
+                path = sample
+            else:
+                raise LibraryError(
+                    f"要素包不存在: {path}",
+                    hint="先跑 python tools/build_elements.py 从素材库编译",
+                    where=str(path),
+                )
         try:
             pack = json.loads(path.read_text(encoding="utf-8"))
         except json.JSONDecodeError as e:

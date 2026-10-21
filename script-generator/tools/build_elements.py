@@ -167,6 +167,9 @@ def build_picker(src: Path, market: str) -> list[dict]:
                     "attrs": attrs,
                     "source": f"picker/{f.name}#{code}",
                 }
+                # picker 的 G 模块全是开场钩，补上 kind，否则按 kind 筛选时会被漏掉
+                if type_key == "hook" and letter == "G":
+                    item["attrs"]["kind"] = "开场钩"
                 if code in structure:
                     item["attrs"]["structure_type"] = structure[code]
                 if "pairs_core" in attrs:

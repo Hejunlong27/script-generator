@@ -63,7 +63,14 @@ def load_style(style_id: str) -> dict:
 
 
 def list_libraries() -> list[str]:
-    return sorted(p.name.split(".")[0] for p in (DATA / "elements").glob("*.elements.json"))
+    out: set[str] = set()
+    for p in (DATA / "elements").glob("*.json"):
+        n = p.name
+        if n.endswith(".elements.json"):
+            out.add(n[: -len(".elements.json")])
+        elif n.endswith(".elements.sample.json"):
+            out.add(n[: -len(".elements.sample.json")])
+    return sorted(out)
 
 
 def catalog(market: str = "MX") -> dict:

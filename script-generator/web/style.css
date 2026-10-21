@@ -267,3 +267,6 @@ button.ghost.more:hover{color:var(--accent);border-color:var(--accent);border-st
   letter-spacing:.02em;
 }
 .layertag.ok{color:var(--ok)}
+
+/* ---------- 署名 ---------- */
+.brand .by{font-size:11px;color:var(--tx3);border-left:1px solid var(--line);padding-left:8px}
